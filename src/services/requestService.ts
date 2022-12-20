@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-function getStockData(selectedOption : string): Promise<AxiosResponse<any, any>> {
+export default function getStockData(selectedOption : string): Promise<AxiosResponse<any, any>> {
     const options = {
         method: 'GET',
         url: `https://localhost:7252/StockDB/${selectedOption}`,
@@ -8,4 +8,18 @@ function getStockData(selectedOption : string): Promise<AxiosResponse<any, any>>
     return axios.request(options);;
 }
 
-export default getStockData;
+export function getStockSearchData(): Promise<AxiosResponse<any, any>> {
+    const options = {
+        method: 'GET',
+        url: `https://localhost:7252/StockSearch`,
+    };
+    return axios.request(options);;
+}
+
+export function getStockChartData(symbol : string): Promise<AxiosResponse<any, any>> {
+    const options = {
+        method: 'GET',
+        url: `https://localhost:7252/StockChart/${symbol}`,
+    };
+    return axios.request(options);;
+}

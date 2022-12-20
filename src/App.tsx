@@ -1,8 +1,8 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
-import ErrorPage from './pages/ErrorPage';
-import Home from './pages/Home';
-import SearchPage from './pages/Search';
+import CandleStickChart from './components/CandleStickChart';
+import ErrorPage from './components/ErrorPage';
+import Home from './components/Home';
 
 function App() {
   return (
