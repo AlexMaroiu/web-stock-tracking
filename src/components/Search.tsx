@@ -69,7 +69,7 @@ function SearchPage(props : {returnData?: (data: StockData) => void}){
                     renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="Search stock"
+                          placeholder = "Search stock"
                           inputRef={selectedOption}
                           InputProps={{
                             ...params.InputProps,
@@ -94,10 +94,12 @@ function SearchPage(props : {returnData?: (data: StockData) => void}){
                         <SearchIcon></SearchIcon>
                 </IconButton>
             </div>
-            {isSHowing && <div className="alert" >
-                Stock not found!
-                <div className="close" onClick={() => {setIsShowing(false)}}>&times;</div>
-            </div>}
+            {isSHowing && 
+                <div className="alert" >
+                    Stock not found!
+                    <div className="close" onClick={() => {setIsShowing(false)}}>&times;</div>
+                </div>
+            }
             
         </>
     );
