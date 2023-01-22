@@ -14,7 +14,7 @@ function Home() {
     return (
         <>
             <Navigation>
-                <SearchPage returnData={getStockData} />
+                <SearchPage onGetData={getStockData} />
             </Navigation>
             <StockDataTabs stock={stockData}></StockDataTabs>
         </>

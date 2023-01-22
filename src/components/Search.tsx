@@ -4,8 +4,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import getStockData, { getStockSearchData } from "../services/requestService";
 import StockData from "../models/StockData";
 import StockSearchData from "../models/StockSearchData";
+import AlertModal from "./AlertModal";
 
-function SearchPage(props : {returnData?: (data: StockData) => void}){
+import styles from "./Search.module.css"
+
+function SearchPage(props : {onGetData: (data: StockData) => void}){
     
     const [data, setData] = useState<readonly StockSearchData[]>([]);
     const loading = (data.length === 0);
@@ -14,23 +17,17 @@ function SearchPage(props : {returnData?: (data: StockData) => void}){
     const selectedOption = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
-        let active = true;
 
         if (!loading) {
-            return undefined;
+            return;
         }
 
         (async () => {
-            if (active) {
-                await getStockSearchData().then((response) => {
-                    setData(response.data);
-                });
-            }
+            await getStockSearchData().then((response) => {
+                setData(response.data);
+            });
         })();
 
-        return () => {
-            active = false;
-        };
     }, [loading]);
 
 
@@ -46,20 +43,19 @@ function SearchPage(props : {returnData?: (data: StockData) => void}){
         }
         getStockData(selectedOption.current.value).then((response) =>{
             if(response.data.symbol != null){
-                props.returnData(response.data);
+                props.onGetData(response.data);
             }
             else{
                 setIsShowing(true);
             }
         });
-
     }
 
     return (
         <>
-            <div className="search" >
+            <div className={styles.search}>
                 <Autocomplete
-                    className="width"
+                    className={styles.width}
                     disablePortal
                     freeSolo
                     id="search-stock"
@@ -94,13 +90,7 @@ function SearchPage(props : {returnData?: (data: StockData) => void}){
                         <SearchIcon></SearchIcon>
                 </IconButton>
             </div>
-            {isSHowing && 
-                <div className="alert" >
-                    Stock not found!
-                    <div className="close" onClick={() => {setIsShowing(false)}}>&times;</div>
-                </div>
-            }
-            
+            <AlertModal open={isSHowing} onClose={setIsShowing} />
         </>
     );
 }

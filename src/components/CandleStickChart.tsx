@@ -4,11 +4,14 @@ import Chart from "react-apexcharts";
 import StockChartModel from "../models/StockChartModel";
 import { getStockChartData } from "../services/requestService";
 
-function CandleStickChartApex(prop: { symbol?: string }) {
+function CandleStickChart(props: { symbol?: string }) {
     const [series, setSeries] = useState([{ data: [] }]);
 
     useEffect(() => {
-        getStockChartData(prop.symbol).then((response) => {
+        if (props.symbol === "") {
+            return;
+        }
+        getStockChartData(props.symbol).then((response) => {
             let dataTemp: StockChartModel = response.data;
             let temp = [{ data: [] }];
             for (
@@ -28,13 +31,12 @@ function CandleStickChartApex(prop: { symbol?: string }) {
                 });
             }
             setSeries(temp);
-            console.log();
         });
-    }, [prop.symbol]);
+    }, [props.symbol]);
 
     const options: ApexOptions = {
         title: {
-            text: `${prop.symbol} stock chart`,
+            text: `${props.symbol} stock chart`,
             align: "left",
         },
         xaxis: {
@@ -61,4 +63,4 @@ function CandleStickChartApex(prop: { symbol?: string }) {
     );
 }
 
-export default CandleStickChartApex;
+export default CandleStickChart;
