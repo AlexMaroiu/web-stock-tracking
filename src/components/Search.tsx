@@ -1,5 +1,5 @@
 import { Autocomplete, Box, CircularProgress, IconButton, TextField } from "@mui/material";
-import { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import getStockData, { getStockSearchData } from "../services/requestService";
 import StockData from "../models/StockData";
@@ -95,4 +95,4 @@ function SearchPage(props : {onGetData: (data: StockData) => void}){
     );
 }
 
-export default SearchPage;
+export default React.memo(SearchPage);

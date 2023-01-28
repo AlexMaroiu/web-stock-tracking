@@ -7,16 +7,12 @@ import StockDataTabs from "./StockDataTabs";
 function Home() {
     const [stockData, setStockData] = useState<StockData>();
 
-    const getStockData = (data: StockData) => {
-        setStockData(data);
-    };
-
     return (
         <>
             <Navigation>
-                <SearchPage onGetData={getStockData} />
+                <SearchPage onGetData={setStockData} />
             </Navigation>
-            <StockDataTabs stock={stockData}></StockDataTabs>
+            <StockDataTabs stock={stockData} />
         </>
     );
 }

@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import StockData from "../models/StockData";
 import CandleStickChart from "./CandleStickChart";
 import FinancialData from "./FinancialData";
+import React from "react";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -45,6 +46,9 @@ function StockDataTabs(props: { stock: StockData }) {
         setValue(newValue);
     };
 
+    const symbol : string = props.stock?.symbol ?? "";
+    //const {symbol} = props;
+
     return (
         <>
             <Box
@@ -57,20 +61,19 @@ function StockDataTabs(props: { stock: StockData }) {
                 <Tabs
                     value={value}
                     onChange={handleChange}
-                    aria-label="basic tabs example"
                 >
                     <Tab label="Chart" {...a11yProps(0)} />
                     <Tab label="Financial Data" {...a11yProps(1)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <CandleStickChart symbol={props.stock?.symbol ?? ""} />
+                <CandleStickChart symbol={symbol} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <FinancialData stock={props.stock}></FinancialData>
+                <FinancialData stock={props.stock} />
             </TabPanel>
         </>
     );
 }
 
-export default StockDataTabs;
+export default React.memo(StockDataTabs);

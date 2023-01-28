@@ -4,14 +4,18 @@ import Chart from "react-apexcharts";
 import StockChartModel from "../models/StockChartModel";
 import { getStockChartData } from "../services/requestService";
 
-function CandleStickChart(props: { symbol?: string }) {
-    const [series, setSeries] = useState([{ data: [] }]);
+function CandleStickChart(props: { symbol: string }) {
+    const [series, setSeries] = useState(() => [{ data: [] }]);
+
+    console.log("CandleStickChart load-reload");
+
+    const {symbol} = props;
 
     useEffect(() => {
-        if (props.symbol === "") {
+        if (symbol === "") {
             return;
         }
-        getStockChartData(props.symbol).then((response) => {
+        getStockChartData(symbol).then((response) => {
             let dataTemp: StockChartModel = response.data;
             let temp = [{ data: [] }];
             for (
@@ -32,11 +36,11 @@ function CandleStickChart(props: { symbol?: string }) {
             }
             setSeries(temp);
         });
-    }, [props.symbol]);
+    }, [symbol]);
 
     const options: ApexOptions = {
         title: {
-            text: `${props.symbol} stock chart`,
+            text: `${symbol} stock chart`,
             align: "left",
         },
         xaxis: {
