@@ -2,7 +2,7 @@ import Tabs from "@mui/material/Tabs";
 import { useState } from "react";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import StockData from "../models/StockData";
+import IStockData from "../models/IStockData";
 import CandleStickChart from "./CandleStickChart";
 import FinancialData from "./FinancialData";
 import React from "react";
@@ -32,14 +32,14 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
-function a11yProps(index: number) {
+function allyProps(index: number) {
     return {
         id: `simple-tab-${index}`,
         "aria-controls": `simple-tabpanel-${index}`,
     };
 }
 
-function StockDataTabs(props: { stock: StockData }) {
+function StockDataTabs(props: { stock: IStockData }) {
     const [value, setValue] = useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -47,7 +47,6 @@ function StockDataTabs(props: { stock: StockData }) {
     };
 
     const symbol : string = props.stock?.symbol ?? "";
-    //const {symbol} = props;
 
     return (
         <>
@@ -55,15 +54,14 @@ function StockDataTabs(props: { stock: StockData }) {
                 sx={{
                     borderBottom: 1,
                     borderColor: "divider",
-                    marginTop: "5rem",
                 }}
             >
                 <Tabs
                     value={value}
                     onChange={handleChange}
                 >
-                    <Tab label="Chart" {...a11yProps(0)} />
-                    <Tab label="Financial Data" {...a11yProps(1)} />
+                    <Tab label="Chart" {...allyProps(0)} />
+                    <Tab label="Financial Data" {...allyProps(1)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>

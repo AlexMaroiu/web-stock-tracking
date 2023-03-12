@@ -2,13 +2,13 @@ import { Autocomplete, Box, CircularProgress, IconButton, TextField } from "@mui
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import getStockData, { getStockSearchData } from "../services/requestService";
-import StockData from "../models/StockData";
+import IStockData from "../models/IStockData";
 import StockSearchData from "../models/StockSearchData";
 import AlertModal from "./AlertModal";
 
 import styles from "./Search.module.css"
 
-function SearchPage(props : {onGetData: (data: StockData) => void}){
+function SearchPage(props : {onGetData: (data: IStockData) => void}){
     
     const [data, setData] = useState<readonly StockSearchData[]>([]);
     const loading = (data.length === 0);

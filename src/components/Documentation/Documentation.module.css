@@ -1,0 +1,11 @@
+.sidebar{
+    position: sticky;
+    top: 5rem;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: right;
+}
+
+.content{
+    margin-bottom: 5rem;
+}
