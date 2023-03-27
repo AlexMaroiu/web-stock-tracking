@@ -90,7 +90,7 @@ function SearchPage(props : {onGetData: (data: IStockData) => void}){
                         <SearchIcon></SearchIcon>
                 </IconButton>
             </div>
-            <AlertModal open={isSHowing} onClose={setIsShowing} />
+            <AlertModal open={isSHowing} onClose={setIsShowing} text={{title: "Stock not found", content: "The stock you searched was not found, please try another symbol or name."}} />
         </>
     );
 }

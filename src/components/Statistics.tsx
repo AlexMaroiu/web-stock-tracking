@@ -1,8 +1,12 @@
 import { ClickAwayListener, IconButton, Tooltip } from "@mui/material";
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useState } from "react";
+import { HashLink } from 'react-router-hash-link';
 
-function Statistics (props: {text: string, data: string | number, title?: any}) {
+import styles from "./Statistics.module.css"
+import StatisticsProps from "../models/StatisticsProps";
+
+function Statistics (props: StatisticsProps) {
     const [open, setOpen] = useState(false);
     // const [timeout, setTimeout1] = useState(null);
     const handleTooltipClose = () => {
@@ -27,7 +31,7 @@ function Statistics (props: {text: string, data: string | number, title?: any}) 
     // }
 
     return(
-        <div style={{display: "flex", flexDirection: "row"}}>
+        <div className={styles.container}>
             <p>{props.text} </p>
             {props.title && <ClickAwayListener onClickAway={handleTooltipClose}>
                 <Tooltip title={props.title}
@@ -41,7 +45,13 @@ function Statistics (props: {text: string, data: string | number, title?: any}) 
                     disableFocusListener
                     disableHoverListener
                     disableTouchListener>
-                    <IconButton onMouseEnter={handleTooltipOpen} onMouseLeave={handleTooltipClose} style={{height: "1rem", width: "1rem", alignSelf:"center", margin:"0.5rem"}}><HelpOutlineIcon/></IconButton>
+                    <div className={styles.link}>    
+                        <HashLink smooth to={`/docs${props.link}`}>
+                            <IconButton onMouseEnter={handleTooltipOpen} onMouseLeave={handleTooltipClose} className={styles.btn} >
+                                <HelpOutlineIcon/>
+                            </IconButton>
+                        </HashLink>
+                    </div>
                 </Tooltip>
             </ClickAwayListener>}
             <p style={{marginLeft: "0.5rem"}}>{props.data}</p>

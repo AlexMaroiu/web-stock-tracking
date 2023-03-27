@@ -18,7 +18,7 @@ function Documentation () {
                         <div className={styles.sidebar}>
                             <ul>
                                 {linkData.map(item => 
-                                    <li><Link href={item.ref} underline="none" color="black">{item.name}</Link></li>
+                                    <li key={item.name}><Link href={item.ref} underline="none" color="black">{item.name}</Link></li>
                                 )}
                             </ul>
                         </div>
