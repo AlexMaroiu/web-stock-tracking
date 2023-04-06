@@ -1,9 +1,9 @@
-import { AppBar, Button, IconButton, Slide, Toolbar, Typography, useScrollTrigger } from "@mui/material";
+import { AppBar, IconButton, Slide, Toolbar, Typography, useScrollTrigger } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Box } from "@mui/system";
 import SideMenu from "./SideMenu";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import UserNavigation from "./UserNavigation";
 
 interface Props {
     title: string,
@@ -23,7 +23,6 @@ function HideOnScroll(props: Props) {
 
 function Navigation(props: Props) {
     const [openDrawer, setOpenDrawer] = useState(false);
-    const navigate = useNavigate();
 
     const toggleDrawer = (open: boolean) =>
         (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -51,7 +50,7 @@ function Navigation(props: Props) {
                         <Box sx={{ justifyContent: "center", width: "100%" }}>
                             {props.children}
                         </Box>
-                        <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
+                        <UserNavigation></UserNavigation>
                     </Toolbar>
                 </AppBar>
             </HideOnScroll>

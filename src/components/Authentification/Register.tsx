@@ -7,6 +7,7 @@ import Navigation from "../Navigation/Navigation";
 import styles from "./Register.module.css"
 import { useState } from "react";
 import registerUser from "../../services/userService";
+import AlertModal from "../Utils/AlertModal";
 
 interface IFormInput {
     username: string;
@@ -21,6 +22,7 @@ function Register () {
     const {register, formState: { errors }, handleSubmit} = useForm<IFormInput>();
 
     const [identical, setIdentical] = useState(false);
+    const [isShowing, setIsShowing] = useState(false);
     const passwordValidation : RegisterOptions<IFormInput, "passwordConfirm"> = { 
         required: "Please enter password",
         minLength: {
@@ -42,6 +44,8 @@ function Register () {
                 if(response.status === 200){
                     navigate("/");
                 }
+            }).catch(err => {
+                setIsShowing(true);
             });
         }
     }
@@ -66,10 +70,11 @@ function Register () {
                     />
                     {identical && <div className={styles.warning}>Passwords must match</div>}
                     <div className={styles.buttons}>
-                        <Button type="submit" variant="outlined" className={styles.button} disabled={false}>Register</Button> {/* TO-DO */}
+                        <Button type="submit" variant="outlined" className={styles.button} disabled={false}>Register</Button> {/* // TODO */}
                     </div>
                 </form>
             </div>
+            <AlertModal open={isShowing} onClose={setIsShowing} text={{title: "Credentials already in use", content: "Username or email already in use! Please try something different"}}/>
         </>
     );
 }

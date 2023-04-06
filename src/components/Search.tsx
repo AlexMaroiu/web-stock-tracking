@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import getStockData, { getStockSearchData } from "../services/requestService";
 import IStockData from "../models/IStockData";
 import StockSearchData from "../models/StockSearchData";
-import AlertModal from "./AlertModal";
+import AlertModal from "./Utils/AlertModal";
 
 import styles from "./Search.module.css"
 

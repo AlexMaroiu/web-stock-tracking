@@ -7,8 +7,6 @@ import { getStockChartData } from "../services/requestService";
 function CandleStickChart(props: { symbol: string }) {
     const [series, setSeries] = useState(() => [{ data: [] }]);
 
-    console.log("CandleStickChart load-reload");
-
     const {symbol} = props;
 
     useEffect(() => {

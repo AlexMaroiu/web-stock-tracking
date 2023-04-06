@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { RegisterOptions, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { loginUser } from "../../services/userService";
-import AlertModal from "../AlertModal";
+import AlertModal from "../Utils/AlertModal";
 import { useState } from "react";
+import { useSignIn } from "react-auth-kit";
 
 interface IFormInput {
     username: string;
@@ -16,9 +17,9 @@ interface IFormInput {
 
 function Login () {
     const navigate = useNavigate();
-    const [isSHowing, setIsShowing] = useState(false);
-    const [isSHowingPass, setIsShowingPass] = useState(false);
+    const [message, setMessage] = useState<string>(null);
     const {register, formState: { errors }, handleSubmit} = useForm<IFormInput>();
+    const singIn = useSignIn();
 
     const passwordValidation : RegisterOptions<IFormInput, "password"> = { 
         required: "Please enter password",
@@ -34,16 +35,18 @@ function Login () {
             password: data.password,
             email: "",
         }).then((response) => {
-            console.log(response);
             if(response.status === 200){
+                // TODO manage JWT
+                singIn({
+                    token: response.data,
+                    expiresIn: 1440,
+                    tokenType: "Bearer",
+                    authState: { username: data.username }
+                })
                 navigate("/");
-                // TO-DO manage JWT
             }
         }).catch(err => {
-            if(err.response.data === "User not found!")
-                setIsShowing(true);
-            if(err.response.data === "Password wrong!")
-                setIsShowingPass(true);
+            setMessage(err.response.data);
         });
     }
 
@@ -59,13 +62,12 @@ function Login () {
                         render={({ message }) => <div className={styles.warning} >{message}</div>}
                     />
                     <div className={styles.buttons}>
-                        <Button type="submit" variant="outlined" className={styles.button}>Login</Button> {/* TO-DO */}
-                        <Button onClick={() => navigate("/register")} variant="outlined" className={styles.button}>Register</Button> {/* TO-DO */}
+                        <Button type="submit" variant="outlined" className={styles.button}>Login</Button> {/* // TODO */}
+                        <Button onClick={() => navigate("/register")} variant="outlined" className={styles.button}>Register</Button> {/* // TODO */}
                     </div>
                 </form>
             </div>
-            <AlertModal open={isSHowing} onClose={setIsShowing} text={{title: "Username not found", content: "Username was not found, please try again!"}}/>
-            <AlertModal open={isSHowingPass} onClose={setIsShowingPass} text={{title: "Password incorect", content: "The password was not correct, please try again!"}}/>
+            <AlertModal open={message != null} onClose={() => setMessage(null)} text={{title: "Credentials not correct", content: message}}/>
         </>
     );
 }

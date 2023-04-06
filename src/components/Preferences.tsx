@@ -1,29 +1,43 @@
 import { Button, TextField } from "@mui/material";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useAuthHeader } from "react-auth-kit";
 import IPreferences from "../models/IPreferences";
-import savePreferences, {getPreferences} from "../services/preferenceService";
+import {getPreferences} from "../services/preferenceService";
 import Navigation from "./Navigation/Navigation";
 
 import styles from "./Preferences.module.css"
 
+interface IData{
+    label: string;
+    ref: React.MutableRefObject<HTMLInputElement>;
+    shrink: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+}
+
 function Preferences () {
 
-    const savedPreferences = getPreferences();
+    const auth = useAuthHeader();
+    const [shrinkState, setShrinkState] = useState(false);
+    const data: IData[] = [
+        {label : "P/E ratio", ref: useRef<HTMLInputElement | null>(), shrink: useState(false)},
+        {label : "ROE", ref: useRef<HTMLInputElement | null>(), shrink: useState(false)},
+        {label : "ROA", ref: useRef<HTMLInputElement | null>(), shrink: useState(false)},
+    ];
+    
+    useEffect(() => {
+        getPreferences(auth()).then(response => {
+            let n : IPreferences = response.data;
+            let temp = Object.values(n);
+            data.map((item, index) => {
+                item.ref.current.value = temp[index];
+            })
+            setShrinkState(true);
+        });
 
-    const data = [
-        {label : "P/E ratio", ref: useRef<HTMLInputElement | null>(), savedData: savedPreferences?.peratio},
-        {label : "ROE", ref: useRef<HTMLInputElement | null>(), savedData: savedPreferences?.roe},
-        {label : "ROA", ref: useRef<HTMLInputElement | null>(), savedData: savedPreferences?.roa},
-    ]
+    }, []);
 
-    const onSave = () => {
-        const temp : IPreferences = {
-            peratio: parseFloat(data[0].ref.current.value),
-            roe: parseFloat(data[1].ref.current.value),
-            roa: parseFloat(data[2].ref.current.value),
-        }
-        savePreferences(temp);
-    }
+    const handleChange = (index: number) => {
+        data[index].shrink[1](true);
+    };
 
     return(
         <>
@@ -32,16 +46,20 @@ function Preferences () {
 
             <div className={styles.container}>
                 <div className={styles.content}>
-                    {data.map((item) => 
-                        <TextField
+                    
+                    {data.map((item, index) => {
+                        return <TextField
                             key={item.label}
                             label = {item.label}
                             type="number"
                             inputRef={item.ref}
-                            defaultValue={item.savedData}
+                            defaultValue=""
+                            InputLabelProps={{ shrink:  item.shrink[0] || shrinkState }}
+                            onChange={() => handleChange(index)}
                         />
+                    }
                     )}
-                    <Button variant="outlined" onClick={onSave}>Save</Button>
+                    <Button variant="outlined" >Save</Button>
                 </div>
             </div>
         </>
