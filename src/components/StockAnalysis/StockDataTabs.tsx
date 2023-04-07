@@ -20,8 +20,8 @@ function TabPanel(props: TabPanelProps) {
         <div
             role="tabpanel"
             hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
+            id={`tabpanel-${index}`}
+            aria-labelledby={`tab-${index}`}
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
@@ -34,8 +34,8 @@ function TabPanel(props: TabPanelProps) {
 
 function allyProps(index: number) {
     return {
-        id: `simple-tab-${index}`,
-        "aria-controls": `simple-tabpanel-${index}`,
+        id: `tab-${index}`,
+        "aria-controls": `tabpanel-${index}`,
     };
 }
 

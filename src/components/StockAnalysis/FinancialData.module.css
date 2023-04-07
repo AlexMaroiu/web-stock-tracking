@@ -1,0 +1,15 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.card{
+    width: 21rem;
+    justify-content: center;
+    display: flex;
+}
+
+.card_content{
+    width: 19rem;
+}

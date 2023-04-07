@@ -10,8 +10,8 @@ import styles from "./Search.module.css"
 
 function SearchPage(props : {onGetData: (data: IStockData) => void}){
     
-    const [data, setData] = useState<readonly StockSearchData[]>([]);
-    const loading = (data.length === 0);
+    const [searchData, setSearchData] = useState<readonly StockSearchData[]>([]);
+    const loading = (searchData.length === 0);
 
     const [isSHowing, setIsShowing] = useState(false);
     const selectedOption = useRef<HTMLInputElement | null>(null);
@@ -22,23 +22,14 @@ function SearchPage(props : {onGetData: (data: IStockData) => void}){
             return;
         }
 
-        (async () => {
-            await getStockSearchData().then((response) => {
-                setData(response.data);
-            });
-        })();
+        getStockSearchData().then((response) => {
+            setSearchData(response.data);
+        });
 
     }, [loading]);
-
-
-    const onEnterKey = (event: { key: string; }) => {
-        if(event.key === "Enter"){
-            getData();
-        }
-    };
-
+    
     const getData = () => {
-        if(selectedOption.current.value === ""){
+        if(!selectedOption.current.value.length){
             return;
         }
         getStockData(selectedOption.current.value).then((response) =>{
@@ -51,6 +42,12 @@ function SearchPage(props : {onGetData: (data: IStockData) => void}){
         });
     }
 
+    const onEnterKey = (event: { key: string; }) => {
+        if(event.key === "Enter"){
+            getData();
+        }
+    };
+
     return (
         <>
             <div className={styles.search}>
@@ -59,7 +56,7 @@ function SearchPage(props : {onGetData: (data: IStockData) => void}){
                     disablePortal
                     freeSolo
                     id="search-stock"
-                    options={data}
+                    options={searchData}
                     onKeyDown={onEnterKey}
                     getOptionLabel={(option) => (option as StockSearchData).symbol}
                     renderInput={(params) => (
@@ -83,7 +80,6 @@ function SearchPage(props : {onGetData: (data: IStockData) => void}){
                             {option.name} ({option.symbol}) 
                         </Box>
                     )}
-                    isOptionEqualToValue={()=> true}
                     loading={loading}
                 />
                 <IconButton onClick={getData}>

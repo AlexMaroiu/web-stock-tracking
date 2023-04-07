@@ -58,8 +58,8 @@ function CandleStickChart(props: { symbol: string }) {
                 options={options}
                 series={series}
                 type="candlestick"
-                height={"500rem"}
-                width={"100%"}
+                height="500rem"
+                width="100%"
             />
         </>
     );
