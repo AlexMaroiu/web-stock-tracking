@@ -2,7 +2,7 @@ import Tabs from "@mui/material/Tabs";
 import { useState } from "react";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import IStockData from "../models/IStockData";
+import IStockData from "../../models/IStockData";
 import CandleStickChart from "./CandleStickChart";
 import FinancialData from "./FinancialData";
 import React from "react";

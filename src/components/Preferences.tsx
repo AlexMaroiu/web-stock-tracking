@@ -16,7 +16,6 @@ interface IData{
 function Preferences () {
 
     const auth = useAuthHeader();
-    const [shrinkState, setShrinkState] = useState(false);
     const data: IData[] = [
         {label : "P/E ratio", ref: useRef<HTMLInputElement | null>(), shrink: useState(false)},
         {label : "ROE", ref: useRef<HTMLInputElement | null>(), shrink: useState(false)},
@@ -26,17 +25,24 @@ function Preferences () {
     useEffect(() => {
         getPreferences(auth()).then(response => {
             let n : IPreferences = response.data;
-            let temp = Object.values(n);
-            data.map((item, index) => {
-                item.ref.current.value = temp[index];
-            })
-            setShrinkState(true);
+            if(n){
+                let temp = Object.values(n);
+                data.forEach((item, index) => {
+                    item.ref.current.value = temp[index];
+                    data[index].shrink[1](true);
+                })
+            }
         });
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleChange = (index: number) => {
-        data[index].shrink[1](true);
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
+        if(event.target.value.length){
+            data[index].shrink[1](true);
+        }
+        else{
+            data[index].shrink[1](false);
+        }
     };
 
     return(
@@ -46,18 +52,16 @@ function Preferences () {
 
             <div className={styles.container}>
                 <div className={styles.content}>
-                    
-                    {data.map((item, index) => {
-                        return <TextField
+                    {data.map((item, index) =>
+                        <TextField
                             key={item.label}
                             label = {item.label}
                             type="number"
                             inputRef={item.ref}
                             defaultValue=""
-                            InputLabelProps={{ shrink:  item.shrink[0] || shrinkState }}
-                            onChange={() => handleChange(index)}
+                            InputLabelProps={{ shrink: item.shrink[0]}}
+                            onChange={(event) => handleChange(event, index)}
                         />
-                    }
                     )}
                     <Button variant="outlined" >Save</Button>
                 </div>

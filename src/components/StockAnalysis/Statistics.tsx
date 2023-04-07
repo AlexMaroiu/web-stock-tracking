@@ -4,7 +4,7 @@ import { useState } from "react";
 import { HashLink } from 'react-router-hash-link';
 
 import styles from "./Statistics.module.css"
-import StatisticsProps from "../models/StatisticsProps";
+import StatisticsProps from "../../models/StatisticsProps";
 
 function Statistics (props: StatisticsProps) {
     const [open, setOpen] = useState(false);

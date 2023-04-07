@@ -18,8 +18,7 @@ interface IFormInput {
 
 function Register () {
     const navigate = useNavigate();
-
-    const {register, formState: { errors }, handleSubmit} = useForm<IFormInput>();
+    const {register, formState: { errors, isValid }, handleSubmit} = useForm<IFormInput>();
 
     const [identical, setIdentical] = useState(false);
     const [isShowing, setIsShowing] = useState(false);
@@ -70,7 +69,7 @@ function Register () {
                     />
                     {identical && <div className={styles.warning}>Passwords must match</div>}
                     <div className={styles.buttons}>
-                        <Button type="submit" variant="outlined" className={styles.button} disabled={false}>Register</Button> {/* // TODO */}
+                        <Button type="submit" variant="outlined" className={styles.button} disabled={!isValid}>Register</Button> 
                     </div>
                 </form>
             </div>

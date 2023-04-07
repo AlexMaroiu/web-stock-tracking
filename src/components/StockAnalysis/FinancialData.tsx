@@ -1,6 +1,6 @@
 import { Card } from "@mui/material";
-import IStockData from "../models/IStockData";
-import StatisticsProps from "../models/StatisticsProps";
+import IStockData from "../../models/IStockData";
+import StatisticsProps from "../../models/StatisticsProps";
 import Statistics from "./Statistics";
 
 

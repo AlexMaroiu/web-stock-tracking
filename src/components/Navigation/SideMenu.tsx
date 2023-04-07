@@ -38,7 +38,7 @@ function SideMenu (props : {
         </List>
         <Divider />
         <List>
-        {/* TODO: de completat */}
+        {/* //TODO: de completat */}
         </List>
     </Box>
     );

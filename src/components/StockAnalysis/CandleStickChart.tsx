@@ -1,8 +1,8 @@
 import { ApexOptions } from "apexcharts";
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
-import StockChartModel from "../models/StockChartModel";
-import { getStockChartData } from "../services/requestService";
+import StockChartModel from "../../models/StockChartModel";
+import { getStockChartData } from "../../services/requestService";
 
 function CandleStickChart(props: { symbol: string }) {
     const [series, setSeries] = useState(() => [{ data: [] }]);
