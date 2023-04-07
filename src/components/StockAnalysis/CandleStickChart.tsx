@@ -7,7 +7,7 @@ import { getStockChartData } from "../../services/requestService";
 function CandleStickChart(props: { symbol: string }) {
     const [series, setSeries] = useState(() => [{ data: [] }]);
 
-    const {symbol} = props;
+    const { symbol } = props;
 
     useEffect(() => {
         if (symbol === "") {

@@ -1,21 +1,21 @@
 import { ClickAwayListener, IconButton, Tooltip } from "@mui/material";
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useState } from "react";
-import { HashLink } from 'react-router-hash-link';
+import { HashLink } from "react-router-hash-link";
 
-import styles from "./Statistics.module.css"
+import styles from "./Statistics.module.css";
 import StatisticsProps from "../../models/StatisticsProps";
 
-function Statistics (props: StatisticsProps) {
+function Statistics(props: StatisticsProps) {
     const [open, setOpen] = useState(false);
     // const [timeout, setTimeout1] = useState(null);
     const handleTooltipClose = () => {
         setOpen(false);
-    }
+    };
 
     const handleTooltipOpen = () => {
         setOpen(true);
-    }
+    };
 
     // used for onClick event
     // const handleTooltipOpen = () => {
@@ -30,32 +30,39 @@ function Statistics (props: StatisticsProps) {
     //     });
     // }
 
-    return(
+    return (
         <div className={styles.container}>
             <p>{props.text} </p>
-            {props.title && <ClickAwayListener onClickAway={handleTooltipClose}>
-                <Tooltip title={props.title}
-                    arrow
-                    placement="top-start" 
-                    open={open}
-                    onClose={handleTooltipClose}
-                    PopperProps={{
-                        disablePortal: true,
-                    }}
-                    disableFocusListener
-                    disableHoverListener
-                    disableTouchListener>
-                    <div className={styles.link}>    
-                        <HashLink smooth to={`/docs${props.link}`}>
-                            <IconButton onMouseEnter={handleTooltipOpen} onMouseLeave={handleTooltipClose} className={styles.btn} >
-                                <HelpOutlineIcon/>
-                            </IconButton>
-                        </HashLink>
-                    </div>
-                </Tooltip>
-            </ClickAwayListener>}
-            <p style={{marginLeft: "0.5rem"}}>{props.data}</p>
-            
+            {props.tooltip && (
+                <ClickAwayListener onClickAway={handleTooltipClose}>
+                    <Tooltip
+                        title={props.tooltip}
+                        arrow
+                        placement="top-start"
+                        open={open}
+                        onClose={handleTooltipClose}
+                        PopperProps={{
+                            disablePortal: true,
+                        }}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                    >
+                        <div className={styles.link}>
+                            <HashLink smooth to={`/docs${props.link}`}>
+                                <IconButton
+                                    onMouseEnter={handleTooltipOpen}
+                                    onMouseLeave={handleTooltipClose}
+                                    className={styles.btn}
+                                >
+                                    <HelpOutlineIcon />
+                                </IconButton>
+                            </HashLink>
+                        </div>
+                    </Tooltip>
+                </ClickAwayListener>
+            )}
+            <p style={{ marginLeft: "0.5rem" }}>{props.data}</p>
         </div>
     );
 }

@@ -1,23 +1,21 @@
 import { Chart } from "react-google-charts";
 
-function Sankey () {
+function Sankey() {
     const data = [
-        ["From", "To", "Weight", { role: 'style' }],
-        ["Revenue", "X", 5, 'color: blue'],
-        ["X", "C", 2, 'color: red'],
-        ["X", "D", 2, 'fill-opacity: 0.4; color: red'],
+        ["From", "To", "Weight", { role: "style" }],
+        ["Revenue", "X", 5, "color: blue"],
+        ["X", "C", 2, "color: red"],
+        ["X", "D", 2, "fill-opacity: 0.4; color: red"],
     ];
 
-    const colors = ["red", "blue", "green"]
+    const colors = ["red", "blue", "green"];
     const options = {
         sankey: {
-            node:{
-                
-            },
-            link: { color: { fillOpacity: 0.1 } }
-        }
-    }
-    return(
+            node: {},
+            link: { color: { fillOpacity: 0.1 } },
+        },
+    };
+    return (
         <>
             <Chart
                 chartType="Sankey"

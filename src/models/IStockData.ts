@@ -27,21 +27,13 @@ export interface LongFormat {
     longFmt: string;
 }
 
-export interface CirculatingSupply {
+export interface CirculatingSupply {}
 
-}
+export interface DividendRate {}
 
-export interface DividendRate {
+export interface DividendYield {}
 
-}
-
-export interface DividendYield {
-
-}
-
-export interface DownLast90days {
-
-}
+export interface DownLast90days {}
 
 export interface EarningsEstimate {
     avg: LongFormat;
@@ -82,13 +74,9 @@ export interface Estimate {
     growth: ShortFormat;
 }
 
-export interface ExDividendDate {
+export interface ExDividendDate {}
 
-}
-
-export interface ExpireDate {
-
-}
+export interface ExpireDate {}
 
 export interface FinancialData {
     ebitdaMargins: ShortFormat;
@@ -128,9 +116,7 @@ export interface FinancialsTemplate {
     maxAge: number;
 }
 
-export interface FiveYearAvgDividendYield {
-
-}
+export interface FiveYearAvgDividendYield {}
 
 export interface History {
     maxAge: number;
@@ -163,17 +149,11 @@ export interface IndustryTrend {
     estimates: any[];
 }
 
-export interface MaxSupply {
+export interface MaxSupply {}
 
-}
+export interface NavPrice {}
 
-export interface NavPrice {
-
-}
-
-export interface OpenInterest {
-
-}
+export interface OpenInterest {}
 
 export interface PageViews {
     shortTermTrend: string;
@@ -266,13 +246,9 @@ export interface SectorTrend {
     estimates: any[];
 }
 
-export interface StartDate {
+export interface StartDate {}
 
-}
-
-export interface StrikePrice {
-
-}
+export interface StrikePrice {}
 
 export interface SummaryDetail {
     previousClose: ShortFormat;
@@ -331,9 +307,7 @@ export interface SummaryDetail {
     coinMarketCapLink: any;
 }
 
-export interface TotalAssets {
-
-}
+export interface TotalAssets {}
 
 export interface Trend {
     period: string;
@@ -356,18 +330,10 @@ export interface UpgradeDowngradeHistory {
     maxAge: number;
 }
 
-export interface Volume24Hr {
+export interface Volume24Hr {}
 
-}
+export interface VolumeAllCurrencies {}
 
-export interface VolumeAllCurrencies {
+export interface Yield {}
 
-}
-
-export interface Yield {
-
-}
-
-export interface YtdReturn {
-
-}
+export interface YtdReturn {}

@@ -3,7 +3,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
 
-function AlertModal(props: { open: boolean, text: {title: string, content: string}, onClose: (b: boolean) => void }) {
+function AlertModal(props: {
+    open: boolean;
+    text: { title: string; content: string };
+    onClose: (b: boolean) => void;
+}) {
     const style = {
         position: "absolute" as "absolute",
         top: "50%",

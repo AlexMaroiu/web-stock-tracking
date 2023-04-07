@@ -1,4 +1,4 @@
-.sidebar{
+.sidebar {
     position: sticky;
     top: 5rem;
     margin-right: 1rem;
@@ -6,6 +6,6 @@
     justify-content: right;
 }
 
-.content{
+.content {
     margin-bottom: 5rem;
 }

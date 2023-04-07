@@ -1,4 +1,4 @@
-.container{
+.container {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -6,32 +6,32 @@
     align-items: center;
 }
 
-.center{
+.center {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     width: 15rem;
 }
 
-.buttons{
+.buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-.button{
+.button {
     width: 50%;
 }
 
-.title{
+.title {
     text-align: center;
 }
 
-.warning{
+.warning {
     color: red;
 }
 
-.warning::before{
+.warning::before {
     display: inline;
     content: "⚠ ";
 }

@@ -23,11 +23,7 @@ function TabPanel(props: TabPanelProps) {
             id={`tabpanel-${index}`}
             aria-labelledby={`tab-${index}`}
         >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    {children}
-                </Box>
-            )}
+            {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
         </div>
     );
 }
@@ -46,7 +42,7 @@ function StockDataTabs(props: { stock: IStockData }) {
         setValue(newValue);
     };
 
-    const symbol : string = props.stock?.symbol ?? "";
+    const symbol: string = props.stock?.symbol ?? "";
 
     return (
         <>
@@ -56,10 +52,7 @@ function StockDataTabs(props: { stock: IStockData }) {
                     borderColor: "divider",
                 }}
             >
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                >
+                <Tabs value={value} onChange={handleChange}>
                     <Tab label="Chart" {...allyProps(0)} />
                     <Tab label="Financial Data" {...allyProps(1)} />
                 </Tabs>
