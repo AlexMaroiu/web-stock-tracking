@@ -103,7 +103,7 @@ function FinancialData(props: { stock: IStockData }) {
     const isAuthentificated = useIsAuthenticated();
 
     const handleAnalyze = () => {
-        console.log("good");
+        // todo 
     };
 
     return (
@@ -126,7 +126,7 @@ function FinancialData(props: { stock: IStockData }) {
                 className={styles.button}
                 variant="contained"
                 onClick={handleAnalyze}
-                disabled={!isAuthentificated()}
+                disabled={(!isAuthentificated()) || (props.stock === undefined)}
             >
                 analyze
             </Button>

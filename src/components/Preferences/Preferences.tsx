@@ -2,32 +2,25 @@ import {
     Button,
     IconButton,
     Snackbar,
-    TextField,
-    Typography,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useAuthHeader } from "react-auth-kit";
-import IPreferences from "../models/IPreferences";
-import savePreferences, { getPreferences } from "../services/preferenceService";
-import Navigation from "./Navigation/Navigation";
+import IPreferences from "../../models/IPreferences";
+import savePreferences, { getPreferences } from "../../services/preferenceService";
+import Navigation from "../Navigation/Navigation";
 import CloseIcon from "@mui/icons-material/Close";
 
 import styles from "./Preferences.module.css";
-
-interface IData {
-    label: string;
-    refMin: React.MutableRefObject<HTMLInputElement>;
-    refMax: React.MutableRefObject<HTMLInputElement>;
-    shrinkMin: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-    shrinkMax: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-}
+import CharacteristicField from "./CharacteristicField";
+import { IData } from "../../models/PreferencesData";
 
 function Preferences() {
     const auth = useAuthHeader();
-    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState<string>(null);
     const data: IData[] = [
         {
             label: "P/E ratio",
+            precent: false,
             refMin: useRef<HTMLInputElement | null>(),
             refMax: useRef<HTMLInputElement | null>(),
             shrinkMin: useState(false),
@@ -35,6 +28,7 @@ function Preferences() {
         },
         {
             label: "ROE",
+            precent: true,
             refMin: useRef<HTMLInputElement | null>(),
             refMax: useRef<HTMLInputElement | null>(),
             shrinkMin: useState(false),
@@ -42,6 +36,7 @@ function Preferences() {
         },
         {
             label: "ROA",
+            precent: true,
             refMin: useRef<HTMLInputElement | null>(),
             refMax: useRef<HTMLInputElement | null>(),
             shrinkMin: useState(false),
@@ -65,28 +60,6 @@ function Preferences() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleChangeMin = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-        index: number
-    ) => {
-        if (event.target.value.length) {
-            data[index].shrinkMin[1](true);
-        } else {
-            data[index].shrinkMin[1](false);
-        }
-    };
-
-    const handleChangeMax = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-        index: number
-    ) => {
-        if (event.target.value.length) {
-            data[index].shrinkMax[1](true);
-        } else {
-            data[index].shrinkMax[1](false);
-        }
-    };
-
     const handleSave = () => {
         let temp: IPreferences = {
             peratio: {
@@ -104,12 +77,12 @@ function Preferences() {
         };
         savePreferences(temp, auth()).then((response) => {
             console.log(response.data);
-            setOpen(true);
+            setMessage(`Preferences ${response.data}`);
         });
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setMessage(null);
     };
 
     const action = (
@@ -131,32 +104,8 @@ function Preferences() {
 
             <div className={styles.container}>
                 <div className={styles.content}>
-                    {data.map((item, index) => (
-                        <div key={`${item.label}Max`}>
-                            <Typography variant="subtitle1">
-                                {item.label}:
-                            </Typography>
-                            <TextField
-                                label="Min"
-                                type="number"
-                                inputRef={item.refMin}
-                                defaultValue=""
-                                InputLabelProps={{ shrink: item.shrinkMin[0] }}
-                                onChange={(event) =>
-                                    handleChangeMin(event, index)
-                                }
-                            />
-                            <TextField
-                                label="Max"
-                                type="number"
-                                inputRef={item.refMax}
-                                defaultValue=""
-                                InputLabelProps={{ shrink: item.shrinkMax[0] }}
-                                onChange={(event) =>
-                                    handleChangeMax(event, index)
-                                }
-                            />
-                        </div>
+                    {data.map((item) => (
+                        <CharacteristicField {...item} key={item.label}></CharacteristicField>                 
                     ))}
                     <Button variant="outlined" onClick={handleSave}>
                         Save
@@ -164,10 +113,10 @@ function Preferences() {
                 </div>
             </div>
             <Snackbar
-                open={open}
+                open={message ? true : false}
                 autoHideDuration={4000}
                 onClose={handleClose}
-                message="Preferences saved"
+                message={message}
                 action={action}
             />
         </>

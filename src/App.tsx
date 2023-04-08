@@ -4,7 +4,7 @@ import Documentation from './components/Documentation/Documentation';
 import ErrorPage from './components/Utils/ErrorPage';
 import Home from './components/Home';
 import Login from './components/Authentification/Login';
-import Preferences from './components/Preferences';
+import Preferences from './components/Preferences/Preferences';
 import Register from './components/Authentification/Register';
 import { RequireAuth } from 'react-auth-kit';
 
