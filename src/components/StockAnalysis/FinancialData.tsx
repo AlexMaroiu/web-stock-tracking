@@ -4,7 +4,10 @@ import StatisticsProps from "../../models/StatisticsProps";
 import Statistics from "./Statistics";
 
 import styles from "./FinancialData.module.css";
-import { useIsAuthenticated } from "react-auth-kit";
+import { useAuthHeader, useIsAuthenticated } from "react-auth-kit";
+import { getAnalysis } from "../../services/preferenceService";
+import { useState } from "react";
+import { Analysis } from "../../models/Analysis";
 
 function FinancialData(props: { stock: IStockData }) {
     const stockInfo: StatisticsProps[] = [
@@ -22,6 +25,7 @@ function FinancialData(props: { stock: IStockData }) {
             tooltip:
                 "The trailing P/E relies on past performance by dividing the current share price by the total EPS earnings over the past 12 months.",
             link: "#peratiottm",
+            property: "peRatio",
         },
         {
             text: "Forward P/E: ",
@@ -49,6 +53,7 @@ function FinancialData(props: { stock: IStockData }) {
             tooltip:
                 "Return on equity (ROE) is a measure of financial performance calculated by dividing net income by shareholders' equity.",
             link: "#roe",
+            property: "roe",
         },
         {
             text: "ROA: ",
@@ -56,6 +61,7 @@ function FinancialData(props: { stock: IStockData }) {
             tooltip:
                 "The term return on assets (ROA) refers to a financial ratio that indicates how profitable a company is in relation to its total assets.",
             link: "#roa",
+            property: "roa",
         },
     ];
     const incomeStatement: StatisticsProps[] = [
@@ -101,9 +107,14 @@ function FinancialData(props: { stock: IStockData }) {
     const data = [stockInfo, incomeStatement];
 
     const isAuthentificated = useIsAuthenticated();
+    const auth = useAuthHeader();
+
+    const [analysis, setAnalysis] = useState<Analysis>();
 
     const handleAnalyze = () => {
-        // todo 
+        getAnalysis(auth(), props.stock.symbol).then(response => {
+            setAnalysis(response.data);
+        })
     };
 
     return (
@@ -115,6 +126,8 @@ function FinancialData(props: { stock: IStockData }) {
                             {data_item.map((item) => (
                                 <Statistics
                                     {...item}
+                                    property={item.property}
+                                    analysis={analysis}
                                     key={item.text}
                                 ></Statistics>
                             ))}

@@ -25,3 +25,14 @@ export function getPreferences(auth: string) : Promise<AxiosResponse<any, any>>{
     };
     return axios.request(options);
 }
+
+export function getAnalysis(auth: string, symbol: string) : Promise<AxiosResponse<any, any>>{
+    const options: AxiosRequestConfig<IPreferences>= {
+        method: 'GET',
+        url: `https://localhost:7252/Preferences/${symbol}`,
+        headers: {
+            authorization: auth
+        },
+    };
+    return axios.request(options);
+}

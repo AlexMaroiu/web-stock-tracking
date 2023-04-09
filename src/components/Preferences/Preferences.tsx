@@ -19,7 +19,7 @@ function Preferences() {
     const [message, setMessage] = useState<string>(null);
     const data: IData[] = [
         {
-            label: "P/E ratio",
+            label: "P/E ratio (TTM)",
             precent: false,
             refMin: useRef<HTMLInputElement | null>(),
             refMax: useRef<HTMLInputElement | null>(),
@@ -50,10 +50,14 @@ function Preferences() {
             if (n) {
                 let temp = Object.values(n);
                 data.forEach((item, index) => {
-                    item.refMin.current.value = temp[index].min;
-                    data[index].shrinkMin[1](true);
-                    item.refMax.current.value = temp[index].max;
-                    data[index].shrinkMax[1](true);
+                    if(temp[index].min !== null){
+                        item.refMin.current.value = temp[index].min;
+                        data[index].shrinkMin[1](true);
+                    }
+                    if(temp[index].max !== null){
+                        item.refMax.current.value = temp[index].max;
+                        data[index].shrinkMax[1](true);
+                    }
                 });
             }
         });
@@ -63,16 +67,16 @@ function Preferences() {
     const handleSave = () => {
         let temp: IPreferences = {
             peratio: {
-                min: Number(data[0].refMin.current.value),
-                max: Number(data[0].refMax.current.value),
+                min: data[0].refMin.current.value.length ? Number(data[0].refMin.current.value) : null,
+                max: data[0].refMax.current.value.length ? Number(data[0].refMax.current.value) : null,
             },
             roe: {
-                min: Number(data[1].refMin.current.value),
-                max: Number(data[1].refMax.current.value),
+                min: data[1].refMin.current.value.length ? Number(data[1].refMin.current.value) : null,
+                max: data[1].refMax.current.value.length ? Number(data[1].refMax.current.value) : null,
             },
             roa: {
-                min: Number(data[2].refMin.current.value),
-                max: Number(data[2].refMax.current.value),
+                min: data[2].refMin.current.value.length ? Number(data[2].refMin.current.value) : null,
+                max: data[2].refMax.current.value.length ? Number(data[2].refMax.current.value) : null,
             },
         };
         savePreferences(temp, auth()).then((response) => {

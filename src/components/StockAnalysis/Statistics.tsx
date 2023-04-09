@@ -1,4 +1,4 @@
-import { ClickAwayListener, IconButton, Tooltip } from "@mui/material";
+import { ClickAwayListener, IconButton, Paper, Tooltip } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useState } from "react";
 import { HashLink } from "react-router-hash-link";
@@ -15,6 +15,15 @@ function Statistics(props: StatisticsProps) {
 
     const handleTooltipOpen = () => {
         setOpen(true);
+    };
+
+    const getColor = () => {
+        if(props?.analysis){
+            if(props.analysis[props?.property] !== undefined){
+                return props.analysis[props?.property] ? "green" : "red";
+            }
+        }
+        return null;
     };
 
     // used for onClick event
@@ -62,7 +71,9 @@ function Statistics(props: StatisticsProps) {
                     </Tooltip>
                 </ClickAwayListener>
             )}
-            <p style={{ marginLeft: "0.5rem" }}>{props.data}</p>
+            <Paper sx={{background: getColor(), marginLeft:"0.5rem"}} elevation={0}>
+                <p style={{ marginLeft: "0.5rem", marginRight:"0.5rem"}}>{props.data}</p>
+            </Paper>
         </div>
     );
 }

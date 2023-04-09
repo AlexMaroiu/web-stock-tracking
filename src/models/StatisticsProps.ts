@@ -1,3 +1,5 @@
+import { Analysis } from "./Analysis";
+
 export default interface StatisticsProps {
     /**
      * The text that would be shown in the card
@@ -17,4 +19,8 @@ export default interface StatisticsProps {
      * link to the documentation page
      */
     link?: string;
+
+    property?: string;
+
+    analysis?: Analysis;
 }

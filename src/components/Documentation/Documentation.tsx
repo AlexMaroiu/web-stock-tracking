@@ -18,7 +18,7 @@ function Documentation() {
                                 {linkData.map((item) => (
                                     <li key={item.name}>
                                         <Link
-                                            href={item.ref}
+                                            href={item.href}
                                             underline="none"
                                             color="black"
                                         >

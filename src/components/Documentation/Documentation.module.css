@@ -9,3 +9,7 @@
 .content {
     margin-bottom: 5rem;
 }
+
+html {
+    scroll-behavior: smooth;
+}

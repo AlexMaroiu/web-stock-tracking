@@ -1,16 +1,16 @@
 interface LinkData {
-    ref: string;
+    href: string;
     name: string;
 }
 
 export const linkData: LinkData[] = [
-    { ref: "#", name: "What is a Stock" },
-    { ref: "#peratio", name: "PE ratio" },
-    { ref: "#peratiottm", name: "PE ratio (TTM)" },
-    { ref: "#roe", name: "Return on Equity (ROE)" },
-    { ref: "#roa", name: "Return on assets (ROA)" },
-    { ref: "#ebitda", name: "EBITDA" },
-    { ref: "#forwardpe", name: "Forward P/E" },
-    { ref: "#profitMargins", name: "Profit margins" },
-    { ref: "#OperatingMargins", name: "Operating margins (TTM)" },
+    { href: "#", name: "What is a Stock" },
+    { href: "#peratio", name: "PE ratio" },
+    { href: "#peratiottm", name: "PE ratio (TTM)" },
+    { href: "#roe", name: "Return on Equity (ROE)" },
+    { href: "#roa", name: "Return on assets (ROA)" },
+    { href: "#ebitda", name: "EBITDA" },
+    { href: "#forwardpe", name: "Forward P/E" },
+    { href: "#profitMargins", name: "Profit margins" },
+    { href: "#OperatingMargins", name: "Operating margins (TTM)" },
 ];
