@@ -5,9 +5,14 @@ import { HashLink } from "react-router-hash-link";
 
 import styles from "./Statistics.module.css";
 import StatisticsProps from "../../models/StatisticsProps";
+import React from "react";
+import StockContext from "../../store/StockContext";
 
 function Statistics(props: StatisticsProps) {
     const [open, setOpen] = useState(false);
+
+    const { analysis } = React.useContext(StockContext);
+
     // const [timeout, setTimeout1] = useState(null);
     const handleTooltipClose = () => {
         setOpen(false);
@@ -18,9 +23,9 @@ function Statistics(props: StatisticsProps) {
     };
 
     const getColor = () => {
-        if(props?.analysis){
-            if(props.analysis[props?.property] !== undefined){
-                return props.analysis[props?.property] ? "green" : "red";
+        if(analysis){
+            if(analysis[props?.property] !== undefined){
+                return analysis[props?.property] ? "green" : "red";
             }
         }
         return null;

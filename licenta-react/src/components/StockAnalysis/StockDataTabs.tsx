@@ -2,7 +2,6 @@ import Tabs from "@mui/material/Tabs";
 import { useState } from "react";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import IStockData from "../../models/IStockData";
 import CandleStickChart from "./CandleStickChart";
 import FinancialData from "./FinancialData";
 import React from "react";
@@ -35,14 +34,12 @@ function allyProps(index: number) {
     };
 }
 
-function StockDataTabs(props: { stock: IStockData }) {
+function StockDataTabs() {
     const [value, setValue] = useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
-
-    const symbol: string = props.stock?.symbol ?? "";
 
     return (
         <>
@@ -58,10 +55,10 @@ function StockDataTabs(props: { stock: IStockData }) {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <CandleStickChart symbol={symbol} />
+                <CandleStickChart />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <FinancialData stock={props.stock} />
+                <FinancialData/>
             </TabPanel>
         </>
     );

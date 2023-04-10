@@ -1,13 +1,15 @@
 import { ApexOptions } from "apexcharts";
+import React from "react";
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import StockChartModel from "../../models/StockChartModel";
 import { getStockChartData } from "../../services/requestService";
+import StockContext from "../../store/StockContext";
 
-function CandleStickChart(props: { symbol: string }) {
+function CandleStickChart() {
     const [series, setSeries] = useState(() => [{ data: [] }]);
 
-    const { symbol } = props;
+    const symbol = React.useContext(StockContext).stock?.symbol ?? "";
 
     useEffect(() => {
         if (symbol === "") {

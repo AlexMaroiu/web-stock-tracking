@@ -21,6 +21,4 @@ export default interface StatisticsProps {
     link?: string;
 
     property?: string;
-
-    analysis?: Analysis;
 }

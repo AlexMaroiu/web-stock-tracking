@@ -1,0 +1,47 @@
+﻿namespace Licenta.Models
+{
+    public class Preferences
+    {
+        public Guid Id { get; set; }
+        public string UserId { get; set; } = string.Empty;
+        public Characteristic? PERatio { get; set; }
+        public Characteristic? ROE { get; set; }
+        public Characteristic? ROA { get; set; }
+
+        public Preferences()
+        {
+        }
+
+        public Preferences(string userId, Characteristic? pERatio = null, Characteristic? rOE = null, Characteristic? rOA = null)
+        {
+            UserId = userId;
+            PERatio = pERatio;
+            ROE = rOE;
+            ROA = rOA;
+        }
+
+        public void MapPreferences(PreferencesDTO pref)
+        {
+            PERatio = pref.PERatio;
+            ROE = pref.ROE;
+            ROA = pref.ROA;
+        }
+
+        public PreferencesDTO GetDTO()
+        { 
+            return new PreferencesDTO
+            {
+                PERatio= PERatio,
+                ROE= ROE,
+                ROA= ROA,
+            }; 
+        }
+        
+    }
+    public class Characteristic
+    {
+        public double? Min { get; set; } = null;
+        public double? Max { get; set; } = null;
+    }
+
+}

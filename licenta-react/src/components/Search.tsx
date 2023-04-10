@@ -8,13 +8,13 @@ import {
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import getStockData, { getStockSearchData } from "../services/requestService";
-import IStockData from "../models/IStockData";
 import StockSearchData from "../models/StockSearchData";
 import AlertModal from "./Utils/AlertModal";
 
 import styles from "./Search.module.css";
+import StockContext from "../store/StockContext";
 
-function SearchPage(props: { onGetData: (data: IStockData) => void }) {
+function SearchPage() {
     const [searchData, setSearchData] = useState<readonly StockSearchData[]>(
         []
     );
@@ -22,6 +22,8 @@ function SearchPage(props: { onGetData: (data: IStockData) => void }) {
 
     const [isSHowing, setIsShowing] = useState(false);
     const selectedOption = useRef<HTMLInputElement | null>(null);
+
+    const {setStock, setAnalysis} = React.useContext(StockContext);
 
     useEffect(() => {
         if (!loading) {
@@ -39,7 +41,8 @@ function SearchPage(props: { onGetData: (data: IStockData) => void }) {
         }
         getStockData(selectedOption.current.value).then((response) => {
             if (response.data.symbol != null) {
-                props.onGetData(response.data);
+                setStock(response.data);
+                setAnalysis(null);
             } else {
                 setIsShowing(true);
             }
