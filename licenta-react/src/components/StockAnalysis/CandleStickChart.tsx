@@ -2,7 +2,7 @@ import { ApexOptions } from "apexcharts";
 import React from "react";
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
-import StockChartModel from "../../models/StockChartModel";
+import ChartType from "../../models/ChartType";
 import { getStockChartData } from "../../services/requestService";
 import StockContext from "../../store/StockContext";
 
@@ -16,7 +16,7 @@ function CandleStickChart() {
             return;
         }
         getStockChartData(symbol).then((response) => {
-            let dataTemp: StockChartModel = response.data;
+            let dataTemp: ChartType = response.data;
             let temp = [{ data: [] }];
             for (
                 let i = 0;

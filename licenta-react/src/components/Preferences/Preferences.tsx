@@ -5,48 +5,24 @@ import {
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useAuthHeader } from "react-auth-kit";
-import IPreferences from "../../models/IPreferences";
+import PreferencesType from "../../models/PreferencesType";
 import savePreferences, { getPreferences } from "../../services/preferenceService";
 import Navigation from "../Navigation/Navigation";
 import CloseIcon from "@mui/icons-material/Close";
 
 import styles from "./Preferences.module.css";
 import CharacteristicField from "./CharacteristicField";
-import { IData } from "../../models/PreferencesData";
+import { usePreferencesData } from "./PreferencesData";
+
 
 function Preferences() {
     const auth = useAuthHeader();
     const [message, setMessage] = useState<string>(null);
-    const data: IData[] = [
-        {
-            label: "P/E ratio (TTM)",
-            precent: false,
-            refMin: useRef<HTMLInputElement | null>(),
-            refMax: useRef<HTMLInputElement | null>(),
-            shrinkMin: useState(false),
-            shrinkMax: useState(false),
-        },
-        {
-            label: "ROE",
-            precent: true,
-            refMin: useRef<HTMLInputElement | null>(),
-            refMax: useRef<HTMLInputElement | null>(),
-            shrinkMin: useState(false),
-            shrinkMax: useState(false),
-        },
-        {
-            label: "ROA",
-            precent: true,
-            refMin: useRef<HTMLInputElement | null>(),
-            refMax: useRef<HTMLInputElement | null>(),
-            shrinkMin: useState(false),
-            shrinkMax: useState(false),
-        },
-    ];
+    const data = usePreferencesData();
 
     useEffect(() => {
         getPreferences(auth()).then((response) => {
-            let n: IPreferences = response.data;
+            let n: PreferencesType = response.data;
             if (n) {
                 let temp = Object.values(n);
                 data.forEach((item, index) => {
@@ -65,7 +41,7 @@ function Preferences() {
     }, []);
 
     const handleSave = () => {
-        let temp: IPreferences = {
+        let temp: PreferencesType = {
             peratio: {
                 min: data[0].refMin.current.value.length ? Number(data[0].refMin.current.value) : null,
                 max: data[0].refMax.current.value.length ? Number(data[0].refMax.current.value) : null,

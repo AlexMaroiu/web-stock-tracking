@@ -1,7 +1,7 @@
 import { InputAdornment, TextField, Typography } from "@mui/material";
-import { IData } from "../../models/PreferencesData";
+import { CharacteristicFieldProps } from "../../models/CharacteristicsFieldProps";
 
-function CharacteristicField (props: IData) {
+function CharacteristicField (props: CharacteristicFieldProps) {
     const handleChangeMin = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
@@ -39,7 +39,7 @@ function CharacteristicField (props: IData) {
                         handleChangeMin(event)
                     }
                     InputProps={{
-                        endAdornment: props.precent && <InputAdornment position="end">%</InputAdornment>,
+                        endAdornment: props.percent && <InputAdornment position="end">%</InputAdornment>,
                     }}
                 />
                 <TextField
@@ -53,7 +53,7 @@ function CharacteristicField (props: IData) {
                         handleChangeMax(event)
                     }
                     InputProps={{
-                        endAdornment: props.precent && <InputAdornment position="end">%</InputAdornment>,
+                        endAdornment: props.percent && <InputAdornment position="end">%</InputAdornment>,
                     }}
                 />
             </div>

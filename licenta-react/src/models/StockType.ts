@@ -1,4 +1,4 @@
-export default interface IStockData {
+export default interface StockType {
     id: string;
     recommendationTrend: RecommendationTrend;
     financialsTemplate: FinancialsTemplate;

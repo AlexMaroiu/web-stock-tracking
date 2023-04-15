@@ -114,7 +114,7 @@ function FinancialData() {
     const handleAnalyze = () => {
         getAnalysis(auth(), stock.symbol).then(response => {
             setAnalysis(response.data);
-        })
+        });
     };
 
     return (

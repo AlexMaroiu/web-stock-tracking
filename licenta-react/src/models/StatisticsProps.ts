@@ -1,5 +1,3 @@
-import { Analysis } from "./Analysis";
-
 export default interface StatisticsProps {
     /**
      * The text that would be shown in the card

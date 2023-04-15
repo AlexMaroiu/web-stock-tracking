@@ -1,6 +1,6 @@
-export interface IData {
+export interface CharacteristicFieldProps {
     label: string;
-    precent: boolean;
+    percent: boolean;
     refMin: React.MutableRefObject<HTMLInputElement>;
     refMax: React.MutableRefObject<HTMLInputElement>;
     shrinkMin: [boolean, React.Dispatch<React.SetStateAction<boolean>>];

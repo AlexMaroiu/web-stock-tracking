@@ -8,6 +8,9 @@ import StatisticsProps from "../../models/StatisticsProps";
 import React from "react";
 import StockContext from "../../store/StockContext";
 
+const color = ["red", "yellow", "green"];
+
+
 function Statistics(props: StatisticsProps) {
     const [open, setOpen] = useState(false);
 
@@ -25,7 +28,7 @@ function Statistics(props: StatisticsProps) {
     const getColor = () => {
         if(analysis){
             if(analysis[props?.property] !== undefined){
-                return analysis[props?.property] ? "green" : "red";
+                return color[analysis[props.property]];
             }
         }
         return null;

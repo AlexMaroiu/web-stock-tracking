@@ -1,10 +1,10 @@
 import React from 'react';
 import { Analysis } from '../models/Analysis';
-import IStockData from '../models/IStockData';
+import StockType from '../models/StockType';
 
 interface IStockContext{
-    stock: IStockData;
-    setStock: (stock: IStockData) => void;
+    stock: StockType;
+    setStock: (stock: StockType) => void;
     analysis: Analysis;
     setAnalysis: (analysis: Analysis) => void;
 }

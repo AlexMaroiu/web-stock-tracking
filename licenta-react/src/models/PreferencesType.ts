@@ -1,4 +1,4 @@
-export default interface IPreferences {
+export default interface PreferencesType {
     peratio: Characteristic;
     roe: Characteristic;
     roa: Characteristic;

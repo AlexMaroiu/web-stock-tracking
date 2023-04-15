@@ -7,5 +7,5 @@ export interface Analysis{
 export enum EAnalysis{
     noMatch,
     slightyOff,
-    Match
+    match,
 }

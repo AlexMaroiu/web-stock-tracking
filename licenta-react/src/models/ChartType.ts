@@ -1,4 +1,4 @@
-export default interface StockChartModel {
+export default interface ChartType {
     id: string;
     chart: Chart | null;
 }

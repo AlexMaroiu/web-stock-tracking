@@ -1,10 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
-import IPreferences from "../models/IPreferences";
+import PreferencesType from "../models/PreferencesType";
 
 
-export default function savePreferences(data : IPreferences, auth: string): Promise<AxiosResponse<any, any>>{
-    const options: AxiosRequestConfig<IPreferences>= {
+export default function savePreferences(data : PreferencesType, auth: string): Promise<AxiosResponse<any, any>>{
+    const options: AxiosRequestConfig<PreferencesType>= {
         method: 'POST',
         url: `https://localhost:7252/Preferences`,
         headers: {
@@ -16,7 +16,7 @@ export default function savePreferences(data : IPreferences, auth: string): Prom
 }
 
 export function getPreferences(auth: string) : Promise<AxiosResponse<any, any>>{
-    const options: AxiosRequestConfig<IPreferences>= {
+    const options: AxiosRequestConfig<PreferencesType>= {
         method: 'GET',
         url: `https://localhost:7252/Preferences`,
         headers: {
@@ -27,7 +27,7 @@ export function getPreferences(auth: string) : Promise<AxiosResponse<any, any>>{
 }
 
 export function getAnalysis(auth: string, symbol: string) : Promise<AxiosResponse<any, any>>{
-    const options: AxiosRequestConfig<IPreferences>= {
+    const options: AxiosRequestConfig<PreferencesType>= {
         method: 'GET',
         url: `https://localhost:7252/Preferences/${symbol}`,
         headers: {

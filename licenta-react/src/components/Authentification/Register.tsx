@@ -9,7 +9,7 @@ import { useState } from "react";
 import registerUser from "../../services/userService";
 import AlertModal from "../Utils/AlertModal";
 
-interface IFormInput {
+interface FormInput {
     username: string;
     email: string;
     password: string;
@@ -22,11 +22,11 @@ function Register() {
         register,
         formState: { errors, isValid },
         handleSubmit,
-    } = useForm<IFormInput>();
+    } = useForm<FormInput>();
 
     const [identical, setIdentical] = useState(false);
     const [isShowing, setIsShowing] = useState(false);
-    const passwordValidation: RegisterOptions<IFormInput, "passwordConfirm"> = {
+    const passwordValidation: RegisterOptions<FormInput, "passwordConfirm"> = {
         required: "Please enter password",
         minLength: {
             value: 8,
@@ -34,7 +34,7 @@ function Register() {
         },
     };
 
-    const onSubmit = (data: IFormInput) => {
+    const onSubmit = (data: FormInput) => {
         if (data.password !== data.passwordConfirm) {
             setIdentical(true);
         } else {

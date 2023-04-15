@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Analysis } from "../models/Analysis";
-import IStockData from "../models/IStockData";
+import StockType from "../models/StockType";
 import StockContext from "../store/StockContext";
 import Navigation from "./Navigation/Navigation";
 import SearchPage from "./Search";
 import StockDataTabs from "./StockAnalysis/StockDataTabs";
 
 function Home() {
-    const [stockData, setStockData] = useState<IStockData>();
+    const [stockData, setStockData] = useState<StockType>();
     const [analysis, setAnalysis] = useState<Analysis>();
 
     return (

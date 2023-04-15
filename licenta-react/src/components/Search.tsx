@@ -8,14 +8,14 @@ import {
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import getStockData, { getStockSearchData } from "../services/requestService";
-import StockSearchData from "../models/StockSearchData";
+import SearchType from "../models/SearchType";
 import AlertModal from "./Utils/AlertModal";
 
 import styles from "./Search.module.css";
 import StockContext from "../store/StockContext";
 
 function SearchPage() {
-    const [searchData, setSearchData] = useState<readonly StockSearchData[]>(
+    const [searchData, setSearchData] = useState<readonly SearchType[]>(
         []
     );
     const loading = searchData.length === 0;
@@ -66,7 +66,7 @@ function SearchPage() {
                     options={searchData}
                     onKeyDown={onEnterKey}
                     getOptionLabel={(option) =>
-                        (option as StockSearchData).symbol
+                        (option as SearchType).symbol
                     }
                     renderInput={(params) => (
                         <TextField
