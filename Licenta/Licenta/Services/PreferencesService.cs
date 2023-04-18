@@ -15,8 +15,12 @@ namespace Licenta.Services
 
             _stocksDB = database.GetCollection<Preferences>(mongoDBSettings.PreferencesCollectionName);
         }
-        public async Task<bool> Create(Preferences model)
+        public async Task<bool> Create(Preferences? model)
         {
+            if (model is null)
+            {
+                return false;
+            }
             await _stocksDB.InsertOneAsync(model);
             return true;
         }
@@ -26,23 +30,23 @@ namespace Licenta.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Preferences> Get(string id)
+        public async Task<Preferences?> Get(string id)
         {
             var preference = await _stocksDB.FindAsync(pref => pref.UserId == id);
             return preference.ToList().FirstOrDefault();
         }
 
-        public Task<List<Preferences>> GetAll()
+        public Task<List<Preferences?>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> Update(string symbol, Preferences model)
+        public async Task<bool> Update(string symbol, Preferences? model)
         {
             var t = await _stocksDB.FindAsync(item => item.UserId == symbol);
             var t1 = t.FirstOrDefault();
-            var result = await _stocksDB.ReplaceOneAsync(item => item.UserId == symbol, model);
-            if (result.IsAcknowledged && result.ModifiedCount == 0)
+            var result = await _stocksDB!.ReplaceOneAsync(filter: item => item!.UserId == symbol, model);
+            if (result.IsAcknowledged && result.ModifiedCount is 0)
             {
                 return false;
             }

@@ -2,7 +2,7 @@
 
 namespace Licenta.Services
 {
-    public interface IPreferencesService : ICollectionService<Preferences>
+    public interface IPreferencesService : ICollectionService<Preferences?>
     {
     }
 }

@@ -11,11 +11,13 @@ namespace Licenta.Controllers
     {
         private readonly IPreferencesService _preferencesService;
         readonly IStockService _stockService;
+        readonly IAnalysisService _analysisService;
 
-        public PreferencesController(IPreferencesService preferencesService, IStockService stockService)
+        public PreferencesController(IPreferencesService preferencesService, IStockService stockService, IAnalysisService analysisService)
         {
             _preferencesService = preferencesService ?? throw new ArgumentNullException(nameof(preferencesService));
             _stockService = stockService ?? throw new ArgumentNullException(nameof(stockService));
+            _analysisService = analysisService ?? throw new ArgumentNullException(nameof(analysisService));
         }
 
         [HttpGet, Authorize]
@@ -30,7 +32,7 @@ namespace Licenta.Controllers
         public async Task<IActionResult> Add([FromBody] PreferencesDTO model)
         {
             var pref = await _preferencesService.Get(User?.Identity?.Name);
-            if (pref == null)
+            if (pref is null)
             {
                 var prefModel = new Preferences(User?.Identity?.Name);
                 prefModel.MapPreferences(model);
@@ -52,45 +54,13 @@ namespace Licenta.Controllers
         public async Task<IActionResult> Analize(string symbol)
         {
             var id = User?.Identity?.Name;
-            var preference = (await _preferencesService.Get(id))?.GetDTO();
-            var stock = (await _stockService.GetStock(symbol));
-            return Ok(Analyze(stock, preference));
-        }
-
-        private Analysis Analyze(StockModel stock, PreferencesDTO preferences)
-        {
-            return new Analysis()
+            var preference = (await _preferencesService.Get(id!))?.GetDTO();
+            var stock = await _stockService.GetStock(symbol);
+            if (stock is null || preference is null)
             {
-                PERatio = Calculate(preferences?.PERatio, stock.summaryDetail.trailingPE.Raw),
-                ROE = Calculate(preferences?.ROE, stock.financialData.returnOnEquity.Raw*100),
-                ROA = Calculate(preferences?.ROA, stock.financialData.returnOnAssets.Raw*100)
-            };
-        }
-
-        private EAnalysis Calculate(Characteristic? pref, double value)
-        {
-            if(pref?.Min != null && pref?.Max != null)
-            {
-                if(pref.Min <= value && pref.Max >= value)
-                {
-                    return EAnalysis.Match;
-                }
+                return BadRequest();
             }
-            else if(pref?.Min != null)
-            {
-                if (pref.Min <= value)
-                {
-                    return EAnalysis.Match;
-                }
-            }
-            else if (pref?.Max != null)
-            {
-                if (pref.Max >= value)
-                {
-                    return EAnalysis.Match;
-                }
-            }
-            return EAnalysis.NoMatch;
+            return Ok(_analysisService.Analyze(stock, preference));
         }
     }
 }

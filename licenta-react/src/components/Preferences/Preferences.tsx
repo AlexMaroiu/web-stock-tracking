@@ -3,7 +3,7 @@ import {
     IconButton,
     Snackbar,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthHeader } from "react-auth-kit";
 import PreferencesType from "../../models/PreferencesType";
 import savePreferences, { getPreferences } from "../../services/preferenceService";
@@ -12,7 +12,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import styles from "./Preferences.module.css";
 import CharacteristicField from "./CharacteristicField";
-import { usePreferencesData } from "./PreferencesData";
+import { usePreferencesData } from "../../hooks/usePreferencesData";
 
 
 function Preferences() {

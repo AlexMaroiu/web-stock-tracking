@@ -1,4 +1,4 @@
-export default interface StatisticsProps {
+export default interface IndicatorProps {
     /**
      * The text that would be shown in the card
      */

@@ -1,6 +1,6 @@
 import { Button, Card } from "@mui/material";
-import StatisticsProps from "../../models/StatisticsProps";
-import Statistics from "./Statistics";
+import IndicatorProps from "../../models/IndicatorProps";
+import Indicator from "./Indicator";
 
 import styles from "./FinancialData.module.css";
 import { useAuthHeader, useIsAuthenticated } from "react-auth-kit";
@@ -9,10 +9,9 @@ import StockContext from "../../store/StockContext";
 import React from "react";
 
 function FinancialData() {
+    const { stock, analysis, setAnalysis } = React.useContext(StockContext);
 
-    const {stock, setAnalysis} = React.useContext(StockContext);
-
-    const stockInfo: StatisticsProps[] = [
+    const stockInfo: IndicatorProps[] = [
         { text: "Stock name: ", data: stock?.price.longName },
         {
             text: "Stock price: ",
@@ -41,8 +40,7 @@ function FinancialData() {
             data: stock
                 ? (
                       stock.price.regularMarketPrice.raw /
-                      stock.earningsTrend.trend[3].earningsEstimate.avg
-                          .raw
+                      stock.earningsTrend.trend[3].earningsEstimate.avg.raw
                   ).toLocaleString("en-EN", { maximumFractionDigits: 2 })
                 : "",
             tooltip:
@@ -66,7 +64,7 @@ function FinancialData() {
             property: "roa",
         },
     ];
-    const incomeStatement: StatisticsProps[] = [
+    const incomeStatement: IndicatorProps[] = [
         {
             text: "Profit margins: ",
             data: stock?.financialData.profitMargins.fmt,
@@ -112,7 +110,7 @@ function FinancialData() {
     const auth = useAuthHeader();
 
     const handleAnalyze = () => {
-        getAnalysis(auth(), stock.symbol).then(response => {
+        getAnalysis(auth(), stock.symbol).then((response) => {
             setAnalysis(response.data);
         });
     };
@@ -124,10 +122,10 @@ function FinancialData() {
                     <Card className={styles.card} key={`${index}`}>
                         <div className={styles.card_content}>
                             {data_item.map((item) => (
-                                <Statistics
+                                <Indicator
                                     {...item}
                                     key={item.text}
-                                ></Statistics>
+                                ></Indicator>
                             ))}
                         </div>
                     </Card>
@@ -137,10 +135,19 @@ function FinancialData() {
                 className={styles.button}
                 variant="contained"
                 onClick={handleAnalyze}
-                disabled={(!isAuthentificated()) || (stock === undefined)}
+                disabled={!isAuthentificated() || stock === undefined}
             >
                 analyze
             </Button>
+
+            {analysis && (
+                <p>
+                    {(analysis.percent * 100).toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                    })}
+                    % Match
+                </p>
+            )}
         </div>
     );
 }

@@ -12,7 +12,7 @@ namespace Licenta.Controllers
 
         public StockController(IStockService stockService)
         {
-            this._stockService = stockService ?? throw new ArgumentNullException(nameof(_stockService));
+            _stockService = stockService ?? throw new ArgumentNullException(nameof(stockService));
         }
 
         [HttpGet("{symbol}")]
@@ -22,15 +22,9 @@ namespace Licenta.Controllers
         }
 
         [HttpGet("/StockDB/{symbol}")]
-        public async Task<IActionResult> GetOne(string symbol)
+        public async Task<IActionResult> GetDB(string symbol)
         {
             return Ok(await _stockService.GetStock(symbol));
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            return Ok(await _stockService.GetAll());
         }
     }
 }

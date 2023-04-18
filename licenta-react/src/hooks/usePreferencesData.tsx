@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
-import { CharacteristicFieldProps } from "../../models/CharacteristicsFieldProps";
+import { CharacteristicFieldProps } from "../models/CharacteristicsFieldProps";
 
 /**
  * 
- * @returns array of type IPreferencesTextField 
+ * @returns array of type CharacteristicFieldProps 
  */
 export const usePreferencesData = (): CharacteristicFieldProps[] => [
     {

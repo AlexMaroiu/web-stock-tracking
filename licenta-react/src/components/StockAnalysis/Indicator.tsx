@@ -3,15 +3,15 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useState } from "react";
 import { HashLink } from "react-router-hash-link";
 
-import styles from "./Statistics.module.css";
-import StatisticsProps from "../../models/StatisticsProps";
+import styles from "./Indicator.module.css";
+import IndicatorProps from "../../models/IndicatorProps";
 import React from "react";
 import StockContext from "../../store/StockContext";
 
 const color = ["red", "yellow", "green"];
 
 
-function Statistics(props: StatisticsProps) {
+function Indicator(props: IndicatorProps) {
     const [open, setOpen] = useState(false);
 
     const { analysis } = React.useContext(StockContext);
@@ -86,4 +86,4 @@ function Statistics(props: StatisticsProps) {
     );
 }
 
-export default Statistics;
+export default Indicator;

@@ -52,16 +52,15 @@ namespace Licenta.Services
             return result ?? new StockModel();
         }
 
-        public async Task<StockModel> GetStock(string symbol)
+        public async Task<StockModel?> GetStock(string symbol)
         {
             var result = await _stocksDB.FindAsync(stock => stock.Symbol == symbol);
-            return result.ToList().FirstOrDefault() ?? new StockModel();
+            return result.ToList().FirstOrDefault();
         }
 
-        public async Task<List<StockModel>> GetAll()
+        public Task<List<StockModel>> GetAll()
         {
-            var result = await _stocksDB.FindAsync(stock => true);
-            return (result.ToList());
+            throw new NotImplementedException();
         }
 
         public Task<bool> Update(string symbol, StockModel model)
@@ -72,7 +71,7 @@ namespace Licenta.Services
         private async void SaveToDB(StockModel model)
         {
             var searched = await _stocksDB.FindAsync(stock => stock.Symbol == model.Symbol);
-            if(model == null)
+            if(model is null)
             {
                 return;
             }

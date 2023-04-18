@@ -1,11 +1,6 @@
 ﻿using Licenta.Models;
 using Licenta.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
 
 namespace Licenta.Controllers
 {
@@ -15,17 +10,19 @@ namespace Licenta.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
+        private readonly ISecurityService _securityService;
 
-        public AuthController(IConfiguration configuration, IUserService userService)
+        public AuthController(IConfiguration configuration, IUserService userService, ISecurityService securityService)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _securityService= securityService ?? throw new ArgumentNullException(nameof(securityService));
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register([FromBody] UserDTO model)
         {
-            CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            _securityService.CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User user = new()
             {
@@ -51,57 +48,14 @@ namespace Licenta.Controllers
             {
                 return BadRequest("User not found!");
             }
-            
-            if(!VerifyPasswordHash(model.Password, user.PasswordHash, user.PasswordSalt))
+
+            if (!_securityService.VerifyPasswordHash(model.Password, user.PasswordHash, user.PasswordSalt))
             {
                 return BadRequest("Password wrong!");
             }
 
-            var token = CreateToken(user);
+            var token = _securityService.CreateToken(user);
             return Ok(token);
-        }
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using(var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-
-            }
-        }
-
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computeHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computeHash.SequenceEqual(passwordHash);
-            }
-        }
-
-        private string CreateToken(User user)
-        {
-            List<Claim> claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role),
-            };
-
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value));
-
-            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                    claims: claims,
-                    expires: DateTime.Now.AddDays(1),
-                    signingCredentials: cred
-                );
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            
-            return jwt;
         }
     }
 }

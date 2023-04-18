@@ -12,7 +12,7 @@ namespace Licenta.Controllers
 
         public StockChartController(IStockChartService stockService)
         {
-            this._stockChartService = stockService ?? throw new ArgumentNullException(nameof(_stockChartService));
+            _stockChartService = stockService ?? throw new ArgumentNullException(nameof(stockService));
         }
 
         [HttpGet("{symbol}")]

@@ -59,6 +59,8 @@ builder.Services.AddSingleton<IStockSearchService, StockSearchService>();
 builder.Services.AddSingleton<IStockChartService, StockChartService>();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IPreferencesService, PreferencesService>();
+builder.Services.AddSingleton<IAnalysisService, AnalysisService>();
+builder.Services.AddSingleton<ISecurityService, SecurityService>();
 
 var app = builder.Build();
 
