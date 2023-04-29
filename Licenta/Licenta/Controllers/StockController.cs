@@ -18,7 +18,12 @@ namespace Licenta.Controllers
         [HttpGet("{symbol}")]
         public async Task<IActionResult> Get(string symbol)
         {
-            return Ok(await _stockService.Get(symbol));
+            var result = await _stockService.Get(symbol);
+            if(result is null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
 
         [HttpGet("/StockDB/{symbol}")]

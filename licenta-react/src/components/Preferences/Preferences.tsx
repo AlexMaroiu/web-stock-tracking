@@ -22,9 +22,9 @@ function Preferences() {
 
     useEffect(() => {
         getPreferences(auth()).then((response) => {
-            let n: PreferencesType = response.data;
-            if (n) {
-                let temp = Object.values(n);
+            let response_data: PreferencesType = response.data;
+            if (response_data) {
+                let temp = Object.values(response_data);
                 data.forEach((item, index) => {
                     if(temp[index].min !== null){
                         item.refMin.current.value = temp[index].min;

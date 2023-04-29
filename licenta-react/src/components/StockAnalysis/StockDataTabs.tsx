@@ -50,15 +50,15 @@ function StockDataTabs() {
                 }}
             >
                 <Tabs value={value} onChange={handleChange}>
-                    <Tab label="Chart" {...allyProps(0)} />
-                    <Tab label="Financial Data" {...allyProps(1)} />
+                    <Tab label="Financial Data" {...allyProps(0)} />
+                    <Tab label="Chart" {...allyProps(1)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <CandleStickChart />
+                <FinancialData/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <FinancialData/>
+                <CandleStickChart />
             </TabPanel>
         </>
     );

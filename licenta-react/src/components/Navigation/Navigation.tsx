@@ -55,7 +55,7 @@ function Navigation(props: Props) {
                         <IconButton onClick={toggleDrawer(true)}>
                             <MenuIcon />
                         </IconButton>
-                        <Typography sx={{ flexGrow: 1 }}>
+                        <Typography>
                             {props.title}
                         </Typography>
                         <Box sx={{ justifyContent: "center", width: "100%" }}>

@@ -1,6 +1,7 @@
 import HomeIcon from "@mui/icons-material/Home";
 import ArticleIcon from "@mui/icons-material/Article";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
+import CompareIcon from '@mui/icons-material/Compare';
 
 interface IListData {
     name: string;
@@ -16,4 +17,5 @@ export const listData: IListData[] = [
         navigation: "/pref",
         icon: <SettingsInputComponentIcon />,
     },
+    { name: "Compare", navigation: "/compare", icon: <CompareIcon /> },
 ];

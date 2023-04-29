@@ -7,23 +7,40 @@ import Login from './components/Authentification/Login';
 import Preferences from './components/Preferences/Preferences';
 import Register from './components/Authentification/Register';
 import { RequireAuth } from 'react-auth-kit';
+import Compare from './components/Compare/Compare';
+import StockContext from './store/StockContext';
+import StockType from './models/StockType';
+import { useState } from 'react';
+import { Analysis } from './models/Analysis';
 
 function App() {
+  const [stockData, setStockData] = useState<StockType>();
+  const [analysis, setAnalysis] = useState<Analysis>();
   return (
-    <Router>
-      <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/register" element={<Register/>}/>
-          <Route path="/docs" element={<Documentation/>}/>
-          <Route path="/pref"  element={
-            <RequireAuth loginPath='/login'>
-              <Preferences/>
-            </RequireAuth>
-          }/>
-          <Route path="*" element={<ErrorPage/>}/>
-      </Routes>
-    </Router>
+    <StockContext.Provider value={{
+        stock: stockData,
+        setStock: setStockData,
+        analysis: analysis,
+        setAnalysis: setAnalysis,
+      }}>
+      <Router>
+        <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/register" element={<Register/>}/>
+            <Route path="/docs" element={<Documentation/>}/>
+            <Route path="/pref"  element={
+              <RequireAuth loginPath='/login'>
+                <Preferences/>
+              </RequireAuth>
+            }/>
+            <Route path="/compare" element={
+              <Compare/>
+            }/>
+            <Route path="*" element={<ErrorPage/>}/>
+        </Routes>
+      </Router>
+    </StockContext.Provider>
   );
 }
 

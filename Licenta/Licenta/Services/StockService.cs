@@ -8,13 +8,15 @@ namespace Licenta.Services
     public class StockService : IStockService
     {
         private readonly IMongoCollection<StockModel> _stocksDB;
+        private readonly IStockSearchService _stockSearchService;
 
-        public StockService(IMongoDBSettings mongoDBSettings)
+        public StockService(IMongoDBSettings mongoDBSettings, IStockSearchService stockSearchService)
         {
             var client = new MongoClient(mongoDBSettings.ConnectionString);
             var database = client.GetDatabase(mongoDBSettings.DatabaseName);
 
             _stocksDB = database.GetCollection<StockModel>(mongoDBSettings.StockCollectionName);
+            _stockSearchService = stockSearchService;
         }
 
         public async Task<bool> Create(StockModel model)
@@ -48,7 +50,8 @@ namespace Licenta.Services
                 var body = await response.Content.ReadAsStringAsync();
                 result = JsonConvert.DeserializeObject<StockModel>(body);
             }
-            SaveToDB(result ?? new StockModel());
+            SaveToDB(result!);
+            
             return result ?? new StockModel();
         }
 
@@ -77,11 +80,17 @@ namespace Licenta.Services
             }
             if(searched.ToList().Count > 0)
             {
-                await Update(model.Symbol ?? String.Empty, model);
+                //await Update(model.Symbol ?? String.Empty, model);
             }
             else
             {
                 await Create(model);
+                await _stockSearchService.Create(new StockSearchModel
+                {
+                    Symbol = model.Symbol,
+                    Name = model.price.shortName,
+                    Type = "stock",
+                });
             }
         }
     }

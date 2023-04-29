@@ -8,7 +8,7 @@ export default function getStockData(selectedOption : string): Promise<AxiosResp
     return axios.request(options);;
 }
 
-export function getStockSearchData(): Promise<AxiosResponse<any, any>> {
+export function getSearchData(): Promise<AxiosResponse<any, any>> {
     const options = {
         method: 'GET',
         url: `https://localhost:7252/StockSearch`,

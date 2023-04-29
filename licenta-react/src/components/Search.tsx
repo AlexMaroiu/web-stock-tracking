@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import getStockData, { getStockSearchData } from "../services/requestService";
+import getStockData, { getSearchData } from "../services/requestService";
 import SearchType from "../models/SearchType";
 import AlertModal from "./Utils/AlertModal";
 
@@ -30,7 +30,7 @@ function SearchPage() {
             return;
         }
 
-        getStockSearchData().then((response) => {
+        getSearchData().then((response) => {
             setSearchData(response.data);
         });
     }, [loading]);
