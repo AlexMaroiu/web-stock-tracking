@@ -1,4 +1,5 @@
 ﻿using Licenta.Models;
+using System.Reflection;
 
 namespace Licenta.Services
 {
@@ -72,7 +73,7 @@ namespace Licenta.Services
 
         private static double CalculatePercent(Analysis analysis)
         {
-            var props = analysis.GetType().GetProperties();
+            var props = typeof(Analysis).GetProperties();
             double percent = 0;
             var count = props.Length;
             foreach (var prop in props)
@@ -96,6 +97,89 @@ namespace Licenta.Services
                 }
             }
             return percent / count;
+        }
+
+        public AnalysisDTO[] Compare(StockModel[] stocks)
+        {
+            var comparison = new Comparison();
+            List<List<double?>> values = new List<List<double?>>();
+            for(int i = 0; i< 11;i++)
+                values.Add(new List<double?>());
+
+
+            foreach(var stock in stocks)
+            {
+                values[0].Add(GetValueFromProperty<StockModel>("summaryDetail.trailingPE.Raw", stock));
+                values[1].Add(GetValueFromProperty<StockModel>("summaryDetail.forwardPE.Raw", stock));
+                values[2].Add(GetValueFromProperty<StockModel>("financialData.returnOnEquity.Raw", stock));
+                values[3].Add(GetValueFromProperty<StockModel>("financialData.returnOnAssets.Raw", stock));
+                values[4].Add(GetValueFromProperty<StockModel>("financialData.profitMargins.Raw", stock));
+                values[5].Add(GetValueFromProperty<StockModel>("financialData.operatingMargins.Raw", stock));
+                values[6].Add(GetValueFromProperty<StockModel>("financialData.ebitda.Raw", stock));
+                values[7].Add(GetValueFromProperty<StockModel>("financialData.totalRevenue.Raw", stock));
+                values[8].Add(GetValueFromProperty<StockModel>("financialData.revenuePerShare.Raw", stock));
+                values[9].Add(GetValueFromProperty<StockModel>("financialData.grossProfits.Raw", stock));
+                values[10].Add(GetValueFromProperty<StockModel>("financialData.revenueGrowth.Raw", stock));
+            }
+            
+            
+            return null;
+        }
+
+        private Comparison CompareValues(List<List<double?>> values)
+        {
+            var c = new Comparison();
+            foreach(var list in values)
+            {
+                var max = FindBiggestValue(list);
+                foreach(var value in list)
+                {
+                    if(value == max)
+                    {
+                        
+                    }
+                }
+            }
+            return null;
+        }
+
+        private double? FindBiggestValue(List<double?> values)
+        {
+            var max = values[0];
+            foreach(var value in values)
+            {
+                if(max < value)
+                {
+                    max = value;
+                }
+            }
+            return max;
+        }
+
+        private double GetValueFromProperty<T>(string propertyList, T model)
+        {
+            var list = propertyList.Split('.');
+            if(list.Length == 0 )
+            {
+                return 0;
+            }
+
+            PropertyInfo? prop = typeof(T).GetProperty(list[0]);
+            
+            
+            if(list.Length == 1)
+            {
+                return (double)prop?.GetValue(model);
+            }
+            object? value = model;
+            for (int i = 1; i < list.Length; i++)
+            {
+                value = prop?.GetValue(value, null);
+                prop = prop.PropertyType.GetProperty(list[i]);
+            }
+            if(prop is not null && value is not null)
+                return (double)prop?.GetValue(value);
+            return 0;
         }
     }
 }

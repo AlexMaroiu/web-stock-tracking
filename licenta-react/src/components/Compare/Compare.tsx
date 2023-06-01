@@ -16,12 +16,7 @@ import getComparedStocks, {
 } from "../../services/comparedStocksService";
 import StockType from "../../models/StockType";
 import getStockData from "../../services/requestService";
-import useTableRows from "./CompareData";
-
-export interface DataType {
-    text: string;
-    data: string[];
-}
+import useTableRows, { DataType } from "./CompareData";
 
 function Compare() {
     const comparedStocks = getComparedStocks();
@@ -37,13 +32,14 @@ function Compare() {
 
     }, []);
 
-    console.log(stockList);
     const stockInfo: DataType[] = useTableRows(stockList);
 
     const handleEmpty = () => {
         emptyComparedStocks();
         window.location.reload();
     };
+
+    console.log(stockInfo);
 
     return (
         <>
@@ -77,7 +73,7 @@ function Compare() {
                                         {row.text}
                                     </TableCell>
                                     {row.data.map((item, index) => (
-                                        <TableCell key={`${row.text} ${index}`}>
+                                        <TableCell key={`${row.text} ${index}`} sx={{background: row.color[index]}}>
                                             {item}
                                         </TableCell>
                                     ))}
