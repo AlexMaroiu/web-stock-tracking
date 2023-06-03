@@ -25,7 +25,6 @@ namespace Licenta.Controllers
             {
                 return NotFound();
             }
-            //_analysisService.Compare(result);
             return Ok(result);
         }
 
@@ -37,7 +36,17 @@ namespace Licenta.Controllers
             {
                 return NotFound();
             }
-            //_analysisService.Compare(result);
+            return Ok(result);
+        }
+
+        [HttpPost("/StockListDB")]
+        public async Task<IActionResult> GetListDB([FromBody] List<string> symbols)
+        {
+            var result = await _stockService.GetStockList(symbols);
+            if (result.Count == 0)
+            {
+                return NotFound();
+            }
             return Ok(result);
         }
     }

@@ -8,6 +8,15 @@ export default function getStockData(selectedOption : string): Promise<AxiosResp
     return axios.request(options);;
 }
 
+export function getStockListData(selectedOption : string[]): Promise<AxiosResponse<any, any>> {
+    const options = {
+        method: 'POST',
+        url: `https://localhost:7252/StockListDB`,
+        data: selectedOption,
+    };
+    return axios.request(options);;
+}
+
 export function getSearchData(): Promise<AxiosResponse<any, any>> {
     const options = {
         method: 'GET',

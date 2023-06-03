@@ -13,6 +13,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import styles from "./Preferences.module.css";
 import CharacteristicField from "./CharacteristicField";
 import { usePreferencesData } from "../../hooks/usePreferencesData";
+import PreferencesModel from "../../models/Preferences";
+
 
 
 function Preferences() {
@@ -41,22 +43,16 @@ function Preferences() {
     }, []);
 
     const handleSave = () => {
-        let temp: PreferencesType = {
-            peratio: {
-                min: data[0].refMin.current.value.length ? Number(data[0].refMin.current.value) : null,
-                max: data[0].refMax.current.value.length ? Number(data[0].refMax.current.value) : null,
-            },
-            roe: {
-                min: data[1].refMin.current.value.length ? Number(data[1].refMin.current.value) : null,
-                max: data[1].refMax.current.value.length ? Number(data[1].refMax.current.value) : null,
-            },
-            roa: {
-                min: data[2].refMin.current.value.length ? Number(data[2].refMin.current.value) : null,
-                max: data[2].refMax.current.value.length ? Number(data[2].refMax.current.value) : null,
-            },
-        };
+        let temp: PreferencesModel = new PreferencesModel();
+
+        Object.getOwnPropertyNames(temp).forEach((item, index) => {
+            temp[item] = {
+                min: data[index].refMin.current.value.length ? Number(data[index].refMin.current.value) : null,
+                max: data[index].refMax.current.value.length ? Number(data[index].refMax.current.value) : null,
+            }
+        });
+
         savePreferences(temp, auth()).then((response) => {
-            console.log(response.data);
             setMessage(`Preferences ${response.data}`);
         });
     };

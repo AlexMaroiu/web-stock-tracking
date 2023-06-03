@@ -7,6 +7,13 @@
         public Characteristic? PERatio { get; set; }
         public Characteristic? ROE { get; set; }
         public Characteristic? ROA { get; set; }
+        public Characteristic? ProfitMargins { get; set; }
+        public Characteristic? OperatingMargins { get; set; }
+        public Characteristic? Ebitda { get; set; }
+        public Characteristic? Revenue { get; set; }
+        public Characteristic? Rps { get; set; }
+        public Characteristic? GrossProfit { get; set; }
+        public Characteristic? RevenueGrowth { get; set; }
 
         public Preferences()
         {
@@ -25,6 +32,13 @@
             PERatio = pref.PERatio;
             ROE = pref.ROE;
             ROA = pref.ROA;
+            ProfitMargins = pref.ProfitMargins;
+            OperatingMargins = pref.OperatingMargins;
+            Ebitda = pref.Ebitda;
+            Revenue = pref.Revenue;
+            Rps = pref.Rps;
+            GrossProfit = pref.GrossProfit;
+            RevenueGrowth = pref.RevenueGrowth;
         }
 
         public PreferencesDTO GetDTO()
@@ -34,7 +48,14 @@
                 PERatio= PERatio,
                 ROE= ROE,
                 ROA= ROA,
-            }; 
+                ProfitMargins = ProfitMargins,
+                OperatingMargins = OperatingMargins,
+                Ebitda = Ebitda,
+                Revenue = Revenue,
+                Rps = Rps,
+                GrossProfit = GrossProfit,
+                RevenueGrowth = RevenueGrowth,
+        }; 
         }
         
     }

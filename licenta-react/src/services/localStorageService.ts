@@ -12,3 +12,13 @@ export function addComparedStocks(symbol: string){
 export function emptyComparedStocks(){
     localStorage.setItem(itemID, JSON.stringify([]));
 }
+
+export function deleteCompareStock(symbol: string){
+    const symbols = getComparedStocks().filter(item => item !== symbol);
+    localStorage.setItem(itemID, JSON.stringify(symbols));
+}
+
+export function findInComparedStocks(symbol: string): boolean{
+    const set = new Set(getComparedStocks());
+    return set.has(symbol);
+}

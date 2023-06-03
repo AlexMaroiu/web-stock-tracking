@@ -1,4 +1,6 @@
-export default interface PreferencesType {
+import PreferencesType, { Characteristic } from "./PreferencesType";
+
+export default class PreferencesModel implements PreferencesType{
     peratio: Characteristic;
     roe: Characteristic;
     roa: Characteristic;
@@ -9,9 +11,4 @@ export default interface PreferencesType {
     rps: Characteristic;
     grossProfit: Characteristic;
     revenueGrowth: Characteristic;
-}
-
-export interface Characteristic {
-    min: number | null;
-    max: number | null;
 }

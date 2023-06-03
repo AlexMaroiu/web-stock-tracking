@@ -13,6 +13,8 @@ import AlertModal from "./Utils/AlertModal";
 
 import styles from "./Search.module.css";
 import StockContext from "../store/StockContext";
+import { getAnalysis } from "../services/preferenceService";
+import { useAuthHeader, useIsAuthenticated } from "react-auth-kit";
 
 function SearchPage() {
     const [searchData, setSearchData] = useState<readonly SearchType[]>(
@@ -23,7 +25,19 @@ function SearchPage() {
     const [isSHowing, setIsShowing] = useState(false);
     const selectedOption = useRef<HTMLInputElement | null>(null);
 
+    const auth = useAuthHeader();
+    const isAuthentificated = useIsAuthenticated();
     const {setStock, setAnalysis} = React.useContext(StockContext);
+
+    useEffect(() => {
+
+        let currentUrlParams = new URLSearchParams(window.location.search);
+        let symbol = currentUrlParams.get("symbol");
+        if(symbol){
+            getData(symbol);
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (!loading) {
@@ -35,23 +49,37 @@ function SearchPage() {
         });
     }, [loading]);
 
-    const getData = () => {
-        if (!selectedOption.current.value.length) {
+    const loadData = () => {
+        getData(selectedOption.current.value);
+    };
+
+    const getData = (symbol: string) => {
+        if (!symbol.length) {
             return;
         }
-        getStockData(selectedOption.current.value).then((response) => {
+        getStockData(symbol).then((response) => {
             if (response.data.symbol != null) {
                 setStock(response.data);
-                setAnalysis(null);
+
+                let currentUrlParams = new URLSearchParams(window.location.search);
+                currentUrlParams.set('symbol', response.data.symbol);
+                window.history.pushState({}, '', window.location.pathname + "?" + currentUrlParams.toString());
+
             } else {
                 setIsShowing(true);
             }
         });
+
+        if(isAuthentificated()){
+            getAnalysis(auth(), symbol).then((response) => {
+                setAnalysis(response.data);
+            });
+        }
     };
 
     const onEnterKey = (event: { key: string }) => {
         if (event.key === "Enter") {
-            getData();
+            loadData();
         }
     };
 
@@ -96,7 +124,7 @@ function SearchPage() {
                     )}
                     loading={loading}
                 />
-                <IconButton onClick={getData}>
+                <IconButton onClick={loadData}>
                     <SearchIcon></SearchIcon>
                 </IconButton>
             </div>

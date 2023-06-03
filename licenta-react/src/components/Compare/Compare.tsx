@@ -12,24 +12,24 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import getComparedStocks, {
+    deleteCompareStock,
     emptyComparedStocks,
-} from "../../services/comparedStocksService";
+} from "../../services/localStorageService";
 import StockType from "../../models/StockType";
-import getStockData from "../../services/requestService";
+import { getStockListData } from "../../services/requestService";
 import useTableRows, { DataType } from "./CompareData";
+import TableHeadButton from "./TableHeadButton";
 
 function Compare() {
     const comparedStocks = getComparedStocks();
     const [stockList, setStockList] = useState<StockType[]>([]);
 
     useEffect(() => {
-        const temp : StockType[] = [];
-        comparedStocks.forEach(async(item) => {
-            let response = await getStockData(item);
-            temp.push(response.data);
-            setStockList(temp);
-        });
 
+        getStockListData(comparedStocks).then((response) => 
+            setStockList(response.data)
+        );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const stockInfo: DataType[] = useTableRows(stockList);
@@ -39,7 +39,10 @@ function Compare() {
         window.location.reload();
     };
 
-    console.log(stockInfo);
+    const handleClick = (symbol: string) => {
+        deleteCompareStock(symbol);
+        window.location.reload();
+    };
 
     return (
         <>
@@ -55,7 +58,7 @@ function Compare() {
                             <TableRow>
                                 <TableCell></TableCell>
                                 {comparedStocks.map((item) => (
-                                    <TableCell key={item}>{item}</TableCell>
+                                    <TableCell key={item} onClick={() => handleClick(item)}><TableHeadButton text={item}/></TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
@@ -73,7 +76,7 @@ function Compare() {
                                         {row.text}
                                     </TableCell>
                                     {row.data.map((item, index) => (
-                                        <TableCell key={`${row.text} ${index}`} sx={{background: row.color[index]}}>
+                                        <TableCell key={`${row.text} ${index}`} sx={{background: row.color[index], textAlign: "center"}}>
                                             {item}
                                         </TableCell>
                                     ))}

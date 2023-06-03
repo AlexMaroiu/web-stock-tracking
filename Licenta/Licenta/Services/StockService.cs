@@ -93,5 +93,17 @@ namespace Licenta.Services
                 });
             }
         }
+
+        public async Task<List<StockModel?>> GetStockList(List<string> symbols)
+        {
+            List<StockModel?> result = new();
+
+            foreach(string symbol in symbols)
+            {
+                result.Add((await GetStock(symbol))!);
+            }
+
+            return result;
+        }
     }
 }

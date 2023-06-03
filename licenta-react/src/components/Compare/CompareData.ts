@@ -1,5 +1,5 @@
 import StockType from "../../models/StockType";
-import getComparedStocks from "../../services/comparedStocksService";
+import getComparedStocks from "../../services/localStorageService";
 
 export interface DataType {
     text: string;

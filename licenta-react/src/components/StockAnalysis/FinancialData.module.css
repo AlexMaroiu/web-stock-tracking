@@ -24,3 +24,9 @@
 .button {
     width: 5rem;
 }
+
+.check_box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

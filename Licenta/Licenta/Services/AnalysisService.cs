@@ -9,18 +9,30 @@ namespace Licenta.Services
         {
             var analysis = new Analysis()
             {
-                PERatio = AnalyzeCharacteristic(preference?.PERatio, stock.summaryDetail.trailingPE.Raw),
-                ROE = AnalyzeCharacteristic(preference?.ROE, stock.financialData.returnOnEquity.Raw * 100),
-                ROA = AnalyzeCharacteristic(preference?.ROA, stock.financialData.returnOnAssets.Raw * 100)
+                PERatio = AnalyzeCharacteristic(preference?.PERatio, stock.summaryDetail.trailingPE?.Raw),
+                ROE = AnalyzeCharacteristic(preference?.ROE, stock.financialData.returnOnEquity?.Raw * 100),
+                ROA = AnalyzeCharacteristic(preference?.ROA, stock.financialData.returnOnAssets?.Raw * 100),
+                ProfitMargins = AnalyzeCharacteristic(preference?.ProfitMargins, stock.financialData.profitMargins?.Raw * 100),
+                OperatingMargins = AnalyzeCharacteristic(preference?.OperatingMargins, stock.financialData.operatingMargins?.Raw * 100),
+                Ebitda = AnalyzeCharacteristic(preference?.Ebitda, stock.financialData.ebitda?.Raw),
+                Revenue = AnalyzeCharacteristic(preference?.Revenue, stock.financialData.totalRevenue?.Raw),
+                Rps = AnalyzeCharacteristic(preference?.Rps, stock.financialData.revenuePerShare?.Raw),
+                GrossProfit = AnalyzeCharacteristic(preference?.GrossProfit, stock.financialData.grossProfits?.Raw),
+                RevenueGrowth = AnalyzeCharacteristic(preference?.RevenueGrowth, stock.financialData.revenueGrowth?.Raw),
             };
             var percent = CalculatePercent(analysis);
             return analysis.GetDTO(percent);
         }
 
-        private static EAnalysis AnalyzeCharacteristic(Characteristic? pref, double value)
+        private static EAnalysis AnalyzeCharacteristic(Characteristic? pref, double? value)
         {
-            var min = Calculate(pref?.Min, value, (pref, val) => pref < val);
-            var max = Calculate(pref?.Max, value, (pref, val) => pref > val);
+            if(value is null)
+            {
+                return EAnalysis.Null;
+            }
+
+            var min = Calculate(pref?.Min, (double)value, (pref, val) => pref < val);
+            var max = Calculate(pref?.Max, (double)value, (pref, val) => pref > val);
             if (min is EAnalysis.Null && max is EAnalysis.Null)
             {
                 return EAnalysis.Null;
@@ -124,36 +136,6 @@ namespace Licenta.Services
             
             
             return null;
-        }
-
-        private Comparison CompareValues(List<List<double?>> values)
-        {
-            var c = new Comparison();
-            foreach(var list in values)
-            {
-                var max = FindBiggestValue(list);
-                foreach(var value in list)
-                {
-                    if(value == max)
-                    {
-                        
-                    }
-                }
-            }
-            return null;
-        }
-
-        private double? FindBiggestValue(List<double?> values)
-        {
-            var max = values[0];
-            foreach(var value in values)
-            {
-                if(max < value)
-                {
-                    max = value;
-                }
-            }
-            return max;
         }
 
         private double GetValueFromProperty<T>(string propertyList, T model)
