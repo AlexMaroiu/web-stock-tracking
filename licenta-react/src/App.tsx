@@ -12,6 +12,7 @@ import StockContext from './store/StockContext';
 import StockType from './models/StockType';
 import { useState } from 'react';
 import { Analysis } from './models/Analysis';
+import Allocation from './components/Allocation/Allocation';
 
 function App() {
   const [stockData, setStockData] = useState<StockType>();
@@ -29,6 +30,11 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/docs" element={<Documentation/>}/>
+            <Route path="/Allocation" element={
+              <RequireAuth loginPath='/login'>
+                <Allocation/>
+              </RequireAuth>
+            }/>
             <Route path="/pref"  element={
               <RequireAuth loginPath='/login'>
                 <Preferences/>

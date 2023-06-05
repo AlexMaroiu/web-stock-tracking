@@ -9,14 +9,16 @@ namespace Licenta.Services
     {
         private readonly IMongoCollection<StockModel> _stocksDB;
         private readonly IStockSearchService _stockSearchService;
+        private readonly IStockChartService _stockChartService;
 
-        public StockService(IMongoDBSettings mongoDBSettings, IStockSearchService stockSearchService)
+        public StockService(IMongoDBSettings mongoDBSettings, IStockSearchService stockSearchService, IStockChartService stockChartService)
         {
             var client = new MongoClient(mongoDBSettings.ConnectionString);
             var database = client.GetDatabase(mongoDBSettings.DatabaseName);
 
             _stocksDB = database.GetCollection<StockModel>(mongoDBSettings.StockCollectionName);
-            _stockSearchService = stockSearchService;
+            _stockSearchService = stockSearchService ?? throw new ArgumentNullException(nameof(stockSearchService));
+            _stockChartService = stockChartService ?? throw new ArgumentNullException(nameof(stockChartService));
         }
 
         public async Task<bool> Create(StockModel model)
@@ -50,7 +52,8 @@ namespace Licenta.Services
                 var body = await response.Content.ReadAsStringAsync();
                 result = JsonConvert.DeserializeObject<StockModel>(body);
             }
-            SaveToDB(result!);
+            await SaveToDB(result!);
+            await _stockChartService.Get(symbol);
             
             return result ?? new StockModel();
         }
@@ -71,14 +74,14 @@ namespace Licenta.Services
             throw new NotImplementedException();
         }
 
-        private async void SaveToDB(StockModel model)
+        private async Task SaveToDB(StockModel model)
         {
-            var searched = await _stocksDB.FindAsync(stock => stock.Symbol == model.Symbol);
+            var searched = await _stockSearchService.Get(model.Symbol);
             if(model is null)
             {
                 return;
             }
-            if(searched.ToList().Count > 0)
+            if(searched is not null)
             {
                 //await Update(model.Symbol ?? String.Empty, model);
             }

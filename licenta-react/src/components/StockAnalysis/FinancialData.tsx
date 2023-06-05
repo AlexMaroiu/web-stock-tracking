@@ -1,4 +1,4 @@
-import { Card, IconButton, Snackbar } from "@mui/material";
+import { Card, IconButton } from "@mui/material";
 import IndicatorProps from "../../models/IndicatorProps";
 import Indicator from "./Indicator";
 
@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { addComparedStocks, deleteCompareStock, findInComparedStocks } from "../../services/localStorageService";
 import CloseIcon from "@mui/icons-material/Close";
 import Checkbox from "@mui/material/Checkbox/Checkbox";
+import SnackBarMessage from "../Utils/SnackBarMessage";
 
 const checkedMessage = "Added to compare";
 const uncheckedMessage = "Removed from compare";
@@ -187,13 +188,7 @@ function FinancialData() {
                     <div>add to compare</div>
                 </div>
             </div>
-            <Snackbar
-                    open={message ? true : false}
-                    autoHideDuration={4000}
-                    onClose={() => setMessage(null)}
-                    message={message}
-                    action={action}
-                />
+            <SnackBarMessage message={message} setMessage={setMessage}/>
         </>
     );
 }

@@ -2,6 +2,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ArticleIcon from "@mui/icons-material/Article";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
 import CompareIcon from '@mui/icons-material/Compare';
+import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 
 interface IListData {
     name: string;
@@ -18,4 +19,6 @@ export const listData: IListData[] = [
         icon: <SettingsInputComponentIcon />,
     },
     { name: "Compare", navigation: "/compare", icon: <CompareIcon /> },
+    { name: "Allocation", navigation: "/allocation", icon: <DonutLargeIcon /> },
+    
 ];

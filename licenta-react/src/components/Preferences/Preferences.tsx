@@ -1,7 +1,6 @@
 import {
     Button,
     IconButton,
-    Snackbar,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAuthHeader } from "react-auth-kit";
@@ -14,6 +13,7 @@ import styles from "./Preferences.module.css";
 import CharacteristicField from "./CharacteristicField";
 import { usePreferencesData } from "../../hooks/usePreferencesData";
 import PreferencesModel from "../../models/Preferences";
+import SnackBarMessage from "../Utils/SnackBarMessage";
 
 
 
@@ -88,13 +88,7 @@ function Preferences() {
                     </Button>
                 </div>
             </div>
-            <Snackbar
-                open={message ? true : false}
-                autoHideDuration={4000}
-                onClose={handleClose}
-                message={message}
-                action={action}
-            />
+            <SnackBarMessage message={message} setMessage={setMessage}/>
         </>
     );
 }

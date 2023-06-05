@@ -14,6 +14,6 @@
 
         public string? UserCollectionName { get; set; }
         public string? PreferencesCollectionName { get; set; }
-
+        public string? AllocationCollectionName { get; set; }
     }
 }

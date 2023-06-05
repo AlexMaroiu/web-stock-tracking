@@ -30,7 +30,7 @@ namespace Licenta.Services
         public async Task<StockSearchModel> Get(string id)
         {
             var result = await _stocksDB.FindAsync(stock => stock.Symbol == id);
-            return result.ToList().FirstOrDefault() ?? new StockSearchModel();
+            return result.ToList().FirstOrDefault()!;
         }
 
         public async Task<List<StockSearchModel>> GetAll()

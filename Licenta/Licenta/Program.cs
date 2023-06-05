@@ -61,6 +61,7 @@ builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IPreferencesService, PreferencesService>();
 builder.Services.AddSingleton<IAnalysisService, AnalysisService>();
 builder.Services.AddSingleton<ISecurityService, SecurityService>();
+builder.Services.AddSingleton<IAllocationService, AllocationService>();
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import AllocationData from "../models/AllocationData";
 
 export default function getStockData(selectedOption : string): Promise<AxiosResponse<any, any>> {
     const options = {
@@ -29,6 +30,29 @@ export function getStockChartData(symbol : string): Promise<AxiosResponse<any, a
     const options = {
         method: 'GET',
         url: `https://localhost:7252/StockChart/${symbol}`,
+    };
+    return axios.request(options);;
+}
+
+export function getAllocation(auth: string) : Promise<AxiosResponse<any, any>>{
+    const options = {
+        method: 'GET',
+        url: `https://localhost:7252/Allocation/`,
+        headers: {
+            authorization: auth
+        },
+    };
+    return axios.request(options);;
+}
+
+export function putAllocation(auth: string, data: AllocationData) : Promise<AxiosResponse<any, any>>{
+    const options = {
+        method: 'PUT',
+        url: `https://localhost:7252/Allocation/`,
+        headers: {
+            authorization: auth
+        },
+        data: data
     };
     return axios.request(options);;
 }

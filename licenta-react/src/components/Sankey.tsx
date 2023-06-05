@@ -8,7 +8,6 @@ function Sankey() {
         ["X", "D", 2, "fill-opacity: 0.4; color: red"],
     ];
 
-    const colors = ["red", "blue", "green"];
     const options = {
         sankey: {
             node: {},
