@@ -18,7 +18,7 @@ namespace Licenta.Controllers
         [HttpGet("{symbol}")]
         public async Task<IActionResult> Get(string symbol)
         {
-            return Ok(await _stockChartService.GetFromDB(symbol));
+            return Ok((await _stockChartService.Get(symbol)).Chart);
         }
     }
 }

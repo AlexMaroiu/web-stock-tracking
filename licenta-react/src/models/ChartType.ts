@@ -1,9 +1,9 @@
-export default interface ChartType {
-    id: string;
-    chart: Chart | null;
-}
+// export default interface ChartType {
+//     id: string;
+//     chart: Chart | null;
+// }
 
-export interface Chart {
+export default interface ChartType {
     result: Result[] | null;
     error: string | null;
 }

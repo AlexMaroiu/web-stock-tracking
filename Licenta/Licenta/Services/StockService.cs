@@ -34,7 +34,93 @@ namespace Licenta.Services
 
         public async Task<StockModel> Get(string symbol)
         {
-            StockModel? result;
+            var stockModel = (await _stocksDB.FindAsync(item => item.Stock.Symbol == symbol)).ToList().FirstOrDefault();
+
+            if(stockModel is null)
+            {
+                return await HandleCalls(symbol);
+            }
+
+            var timestamp = DateTime.Now.Subtract(stockModel!.Timestamp.AddHours(3));
+            if(timestamp.Days >= 1)
+            {
+                return await HandleCalls(symbol);
+            }
+
+            return stockModel!;
+        }
+
+        public async Task<Stock?> GetStock(string symbol)
+        {
+            var result = await _stocksDB.FindAsync(item => item.Stock.Symbol == symbol);
+            return result.ToList().FirstOrDefault()?.Stock;
+        }
+
+        public Task<List<StockModel>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> Update(string symbol, StockModel model)
+        {
+            var temp = (await _stocksDB.FindAsync(item => item.Stock.Symbol == symbol)).FirstOrDefault();
+            
+            if (temp is null)
+            {
+                return await Create(model);
+            }
+            model.Id = temp.Id;
+            var result = await _stocksDB!.ReplaceOneAsync(filter: item => item.Stock!.Symbol == symbol, model);
+            if (result.IsAcknowledged && result.ModifiedCount is 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private async Task SaveToDB(Stock model)
+        {
+            var searched = await _stockSearchService.Get(model.Symbol);
+            if(model is null)
+            {
+                return;
+            }
+            var stockModel = new StockModel()
+            {
+                Stock = model,
+                Timestamp = DateTime.Now,
+            };
+            if(searched is not null)
+            {
+                await Update(model.Symbol, stockModel);
+            }
+            else
+            {
+                await Create(stockModel);
+                await _stockSearchService.Create(new StockSearchModel
+                {
+                    Symbol = model.Symbol,
+                    Name = model.price.shortName,
+                    Type = "stock",
+                });
+            }
+        }
+
+        public async Task<List<Stock?>> GetStockList(List<string> symbols)
+        {
+            List<Stock?> result = new();
+
+            foreach(string symbol in symbols)
+            {
+                result.Add((await GetStock(symbol))!);
+            }
+
+            return result;
+        }
+
+        private async Task<Stock?> CallAPI(string symbol)
+        {
+            Stock? result;
             var client = new HttpClient();
             var request = new HttpRequestMessage
             {
@@ -50,63 +136,21 @@ namespace Licenta.Services
             {
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
-                result = JsonConvert.DeserializeObject<StockModel>(body);
+                result = JsonConvert.DeserializeObject<Stock>(body);
             }
+            return result;
+        }
+
+        private async Task<StockModel> HandleCalls(string symbol)
+        {
+            var result = await CallAPI(symbol);
             await SaveToDB(result!);
             await _stockChartService.Get(symbol);
-            
-            return result ?? new StockModel();
-        }
 
-        public async Task<StockModel?> GetStock(string symbol)
-        {
-            var result = await _stocksDB.FindAsync(stock => stock.Symbol == symbol);
-            return result.ToList().FirstOrDefault();
-        }
-
-        public Task<List<StockModel>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Update(string symbol, StockModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        private async Task SaveToDB(StockModel model)
-        {
-            var searched = await _stockSearchService.Get(model.Symbol);
-            if(model is null)
+            return new StockModel()
             {
-                return;
-            }
-            if(searched is not null)
-            {
-                //await Update(model.Symbol ?? String.Empty, model);
-            }
-            else
-            {
-                await Create(model);
-                await _stockSearchService.Create(new StockSearchModel
-                {
-                    Symbol = model.Symbol,
-                    Name = model.price.shortName,
-                    Type = "stock",
-                });
-            }
-        }
-
-        public async Task<List<StockModel?>> GetStockList(List<string> symbols)
-        {
-            List<StockModel?> result = new();
-
-            foreach(string symbol in symbols)
-            {
-                result.Add((await GetStock(symbol))!);
-            }
-
-            return result;
+                Stock = result!,
+            };
         }
     }
 }

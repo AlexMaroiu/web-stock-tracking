@@ -1,5 +1,4 @@
 export default interface StockType {
-    id: string;
     recommendationTrend: RecommendationTrend;
     financialsTemplate: FinancialsTemplate;
     price: Price;

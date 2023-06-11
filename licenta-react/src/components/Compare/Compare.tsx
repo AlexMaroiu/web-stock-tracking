@@ -1,7 +1,7 @@
 import Navigation from "../Navigation/Navigation";
 
 import styles from "./Compare.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -17,12 +17,15 @@ import getComparedStocks, {
 } from "../../services/localStorageService";
 import StockType from "../../models/StockType";
 import { getStockListData } from "../../services/requestService";
-import useTableRows, { DataType } from "./CompareData";
+import useTableRows from "./CompareData";
 import TableHeadButton from "./TableHeadButton";
+import DataType from "../../models/CompareDataType";
 
 function Compare() {
     const comparedStocks = getComparedStocks();
     const [stockList, setStockList] = useState<StockType[]>([]);
+
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
 
     useEffect(() => {
 
@@ -36,12 +39,12 @@ function Compare() {
 
     const handleEmpty = () => {
         emptyComparedStocks();
-        window.location.reload();
+        forceUpdate();
     };
 
     const handleClick = (symbol: string) => {
         deleteCompareStock(symbol);
-        window.location.reload();
+        forceUpdate();
     };
 
     return (
@@ -60,6 +63,7 @@ function Compare() {
                                 {comparedStocks.map((item) => (
                                     <TableCell key={item} onClick={() => handleClick(item)}><TableHeadButton text={item}/></TableCell>
                                 ))}
+                                <TableCell align="center">AVERAGE</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -80,6 +84,9 @@ function Compare() {
                                             {item}
                                         </TableCell>
                                     ))}
+                                    <TableCell sx={{textAlign: "center"}}>
+                                        {row.average}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

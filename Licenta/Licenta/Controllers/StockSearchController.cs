@@ -26,7 +26,7 @@ namespace Licenta.Controllers
         public async Task<IActionResult> Post([FromBody] StockSearchModel stock)
         {
             await _stockService.Create(stock);
-            return Ok("ok");
+            return Created("~", stock);
         }
 
     }

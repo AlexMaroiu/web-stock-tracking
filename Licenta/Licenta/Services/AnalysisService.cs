@@ -5,7 +5,7 @@ namespace Licenta.Services
 {
     public class AnalysisService : IAnalysisService
     {
-        public AnalysisDTO Analyze(StockModel stock, PreferencesDTO preference)
+        public AnalysisDTO Analyze(Stock stock, PreferencesDTO preference)
         {
             var analysis = new Analysis()
             {
@@ -111,57 +111,57 @@ namespace Licenta.Services
             return percent / count;
         }
 
-        public AnalysisDTO[] Compare(StockModel[] stocks)
-        {
-            var comparison = new Comparison();
-            List<List<double?>> values = new List<List<double?>>();
-            for(int i = 0; i< 11;i++)
-                values.Add(new List<double?>());
+        //public AnalysisDTO[] Compare(Stock[] stocks)
+        //{
+        //    var comparison = new Comparison();
+        //    List<List<double?>> values = new List<List<double?>>();
+        //    for(int i = 0; i< 11;i++)
+        //        values.Add(new List<double?>());
 
 
-            foreach(var stock in stocks)
-            {
-                values[0].Add(GetValueFromProperty<StockModel>("summaryDetail.trailingPE.Raw", stock));
-                values[1].Add(GetValueFromProperty<StockModel>("summaryDetail.forwardPE.Raw", stock));
-                values[2].Add(GetValueFromProperty<StockModel>("financialData.returnOnEquity.Raw", stock));
-                values[3].Add(GetValueFromProperty<StockModel>("financialData.returnOnAssets.Raw", stock));
-                values[4].Add(GetValueFromProperty<StockModel>("financialData.profitMargins.Raw", stock));
-                values[5].Add(GetValueFromProperty<StockModel>("financialData.operatingMargins.Raw", stock));
-                values[6].Add(GetValueFromProperty<StockModel>("financialData.ebitda.Raw", stock));
-                values[7].Add(GetValueFromProperty<StockModel>("financialData.totalRevenue.Raw", stock));
-                values[8].Add(GetValueFromProperty<StockModel>("financialData.revenuePerShare.Raw", stock));
-                values[9].Add(GetValueFromProperty<StockModel>("financialData.grossProfits.Raw", stock));
-                values[10].Add(GetValueFromProperty<StockModel>("financialData.revenueGrowth.Raw", stock));
-            }
+        //    foreach(var stock in stocks)
+        //    {
+        //        values[0].Add(GetValueFromProperty<StockModel>("summaryDetail.trailingPE.Raw", stock));
+        //        values[1].Add(GetValueFromProperty<StockModel>("summaryDetail.forwardPE.Raw", stock));
+        //        values[2].Add(GetValueFromProperty<StockModel>("financialData.returnOnEquity.Raw", stock));
+        //        values[3].Add(GetValueFromProperty<StockModel>("financialData.returnOnAssets.Raw", stock));
+        //        values[4].Add(GetValueFromProperty<StockModel>("financialData.profitMargins.Raw", stock));
+        //        values[5].Add(GetValueFromProperty<StockModel>("financialData.operatingMargins.Raw", stock));
+        //        values[6].Add(GetValueFromProperty<StockModel>("financialData.ebitda.Raw", stock));
+        //        values[7].Add(GetValueFromProperty<StockModel>("financialData.totalRevenue.Raw", stock));
+        //        values[8].Add(GetValueFromProperty<StockModel>("financialData.revenuePerShare.Raw", stock));
+        //        values[9].Add(GetValueFromProperty<StockModel>("financialData.grossProfits.Raw", stock));
+        //        values[10].Add(GetValueFromProperty<StockModel>("financialData.revenueGrowth.Raw", stock));
+        //    }
             
             
-            return null;
-        }
+        //    return null;
+        //}
 
-        private double GetValueFromProperty<T>(string propertyList, T model)
-        {
-            var list = propertyList.Split('.');
-            if(list.Length == 0 )
-            {
-                return 0;
-            }
+        //private double GetValueFromProperty<T>(string propertyList, T model)
+        //{
+        //    var list = propertyList.Split('.');
+        //    if(list.Length == 0 )
+        //    {
+        //        return 0;
+        //    }
 
-            PropertyInfo? prop = typeof(T).GetProperty(list[0]);
+        //    PropertyInfo? prop = typeof(T).GetProperty(list[0]);
             
             
-            if(list.Length == 1)
-            {
-                return (double)prop?.GetValue(model);
-            }
-            object? value = model;
-            for (int i = 1; i < list.Length; i++)
-            {
-                value = prop?.GetValue(value, null);
-                prop = prop.PropertyType.GetProperty(list[i]);
-            }
-            if(prop is not null && value is not null)
-                return (double)prop?.GetValue(value);
-            return 0;
-        }
+        //    if(list.Length == 1)
+        //    {
+        //        return (double)prop?.GetValue(model);
+        //    }
+        //    object? value = model;
+        //    for (int i = 1; i < list.Length; i++)
+        //    {
+        //        value = prop?.GetValue(value, null);
+        //        prop = prop.PropertyType.GetProperty(list[i]);
+        //    }
+        //    if(prop is not null && value is not null)
+        //        return (double)prop?.GetValue(value);
+        //    return 0;
+        //}
     }
 }

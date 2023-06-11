@@ -68,6 +68,8 @@ function SearchPage() {
             } else {
                 setIsShowing(true);
             }
+        }).catch(error => {
+            setIsShowing(true);
         });
 
         if(isAuthentificated()){

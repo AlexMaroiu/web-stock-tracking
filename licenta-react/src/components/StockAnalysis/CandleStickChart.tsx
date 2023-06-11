@@ -20,17 +20,17 @@ function CandleStickChart() {
             let temp = [{ data: [] }];
             for (
                 let i = 0;
-                i < dataTemp.chart.result[0].timestamp.length;
+                i < dataTemp.result[0].timestamp.length;
                 i++
             ) {
                 temp[0].data.push({
                     //Note, I've also multiplied the timestamp by 1000 to convert the value from seconds to milliseconds because JavaScript uses milliseconds internally, while normal UNIX timestamps are usually in seconds.
-                    x: new Date(dataTemp.chart.result[0].timestamp[i] * 1000),
+                    x: new Date(dataTemp.result[0].timestamp[i] * 1000),
                     y: [
-                        dataTemp.chart.result[0].indicators.quote[0].open[i],
-                        dataTemp.chart.result[0].indicators.quote[0].high[i],
-                        dataTemp.chart.result[0].indicators.quote[0].low[i],
-                        dataTemp.chart.result[0].indicators.quote[0].close[i],
+                        dataTemp.result[0].indicators.quote[0].open[i],
+                        dataTemp.result[0].indicators.quote[0].high[i],
+                        dataTemp.result[0].indicators.quote[0].low[i],
+                        dataTemp.result[0].indicators.quote[0].close[i],
                     ],
                 });
             }

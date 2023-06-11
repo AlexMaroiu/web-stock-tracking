@@ -4,21 +4,23 @@ import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputCompone
 import CompareIcon from '@mui/icons-material/Compare';
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 
-interface IListData {
+interface ListData {
     name: string;
     navigation: string;
     icon: JSX.Element;
 }
 
-export const listData: IListData[] = [
+export const publicData: ListData[] = [
     { name: "Home", navigation: "/", icon: <HomeIcon /> },
     { name: "Documentation", navigation: "/docs", icon: <ArticleIcon /> },
+    { name: "Compare", navigation: "/compare", icon: <CompareIcon /> },
+];
+
+export const privateData: ListData[] = [
     {
         name: "Stock Preferences",
         navigation: "/pref",
         icon: <SettingsInputComponentIcon />,
     },
-    { name: "Compare", navigation: "/compare", icon: <CompareIcon /> },
     { name: "Allocation", navigation: "/allocation", icon: <DonutLargeIcon /> },
-    
 ];

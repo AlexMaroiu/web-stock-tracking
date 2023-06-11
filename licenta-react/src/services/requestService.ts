@@ -4,7 +4,7 @@ import AllocationData from "../models/AllocationData";
 export default function getStockData(selectedOption : string): Promise<AxiosResponse<any, any>> {
     const options = {
         method: 'GET',
-        url: `https://localhost:7252/StockDB/${selectedOption}`,
+        url: `https://localhost:7252/Stock/${selectedOption}`,
     };
     return axios.request(options);;
 }
@@ -12,7 +12,7 @@ export default function getStockData(selectedOption : string): Promise<AxiosResp
 export function getStockListData(selectedOption : string[]): Promise<AxiosResponse<any, any>> {
     const options = {
         method: 'POST',
-        url: `https://localhost:7252/StockListDB`,
+        url: `https://localhost:7252/StockList`,
         data: selectedOption,
     };
     return axios.request(options);;

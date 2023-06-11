@@ -35,7 +35,7 @@ namespace Licenta.Controllers
             };
 
             if (await _userService.Create(user))
-                return Ok(user);
+                return Created("~", user);
             else
                 return BadRequest("Email or username already in use!");
         }

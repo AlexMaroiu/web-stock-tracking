@@ -30,6 +30,55 @@ namespace Licenta.Services
 
         public async Task<StockChartModel> Get(string symbol)
         {
+            var chart = (await _stocksDB.FindAsync(item => item.Chart.Result[0].Meta.Symbol == symbol)).ToList().FirstOrDefault();
+
+            if(chart is null)
+            {
+                return await CallAPI(symbol) ?? new StockChartModel();
+            }
+
+            var timestamp = DateTime.Now.Subtract(chart!.Timestamp.AddHours(3));
+            if(timestamp.Days >= 1)
+            {
+                return await CallAPI(symbol) ?? new StockChartModel();
+            }
+
+            return chart;            
+        }
+
+        public async Task<StockChartModel> GetFromDB(string symbol)
+        {
+            var result = await _stocksDB.FindAsync(item => item.Chart.Result[0].Meta.Symbol == symbol);
+            return result.FirstOrDefault() ?? new StockChartModel();
+        }
+
+        public Task<List<StockChartModel>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> Update(string symbol, StockChartModel model)
+        {
+            var temp = (await _stocksDB.FindAsync(item => item.Chart.Result[0].Meta.Symbol == symbol)).FirstOrDefault();
+            model.Timestamp = DateTime.Now;
+
+            if (temp is null)
+            {
+                return await Create(model);
+            }
+
+            model.Id = temp.Id;
+            var result = await _stocksDB!.ReplaceOneAsync(filter: item => item.Chart.Result[0].Meta.Symbol == symbol, model);
+            
+            if (result.IsAcknowledged && result.ModifiedCount is 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private async Task<StockChartModel?> CallAPI(string symbol)
+        {
             StockChartModel? result;
             var client = new HttpClient();
             var request = new HttpRequestMessage
@@ -48,24 +97,10 @@ namespace Licenta.Services
                 var body = await response.Content.ReadAsStringAsync();
                 result = JsonConvert.DeserializeObject<StockChartModel>(body);
             }
-            await Create(result ?? new StockChartModel());
-            return result ?? new StockChartModel();
-        }
 
-        public async Task<StockChartModel> GetFromDB(string symbol)
-        {
-            var result = await _stocksDB.FindAsync<StockChartModel>(item => item.Chart.Result[0].Meta.Symbol == symbol);
-            return result.FirstOrDefault() ?? new StockChartModel();
-        }
+            await Update(symbol, result!);
 
-        public Task<List<StockChartModel>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Update(string symbol, StockChartModel model)
-        {
-            throw new NotImplementedException();
+            return result;
         }
     }
 }

@@ -4,8 +4,8 @@ namespace Licenta.Services
 {
     public interface IStockService : ICollectionService<StockModel>
     {
-        Task<StockModel?> GetStock(string symbol);
+        Task<Stock?> GetStock(string symbol);
 
-        Task<List<StockModel?>> GetStockList(List<string> symbols);
+        Task<List<Stock?>> GetStockList(List<string> symbols);
     }
 }

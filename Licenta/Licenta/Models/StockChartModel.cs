@@ -4,6 +4,7 @@
     {
         public Guid Id { get; set; }
         public Chart? Chart { get; set; }
+        public DateTime Timestamp { get; set; }
     }
     public class Chart
     {

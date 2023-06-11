@@ -2,11 +2,14 @@
 
 namespace Licenta.Models
 {
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-
     public class StockModel
     {
         public Guid Id { get; set; }
+        public Stock Stock { get; set; }
+        public DateTime Timestamp { get; set; }
+    }
+    public class Stock
+    {
         public RecommendationTrend recommendationTrend { get; set; }
         public FinancialsTemplate financialsTemplate { get; set; }
         public Price price { get; set; }

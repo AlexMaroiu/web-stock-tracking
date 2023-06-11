@@ -8,7 +8,7 @@ import Divider from "@mui/material/Divider";
 import { Box } from "@mui/system";
 import Drawer from "@mui/material/Drawer";
 
-import { listData } from "./SideMenuItems";
+import { publicData, privateData } from "./SideMenuItems";
 
 function SideMenu(props: {
     toggleDrawer: (
@@ -26,7 +26,7 @@ function SideMenu(props: {
             onKeyDown={props.toggleDrawer(false)}
         >
             <List>
-                {listData.map((item) => (
+                {publicData.map((item) => (
                     <ListItem key={item.name} disablePadding>
                         <ListItemButton
                             onClick={() => navigate(item.navigation)}
@@ -39,7 +39,16 @@ function SideMenu(props: {
             </List>
             <Divider />
             <List>
-                {/* //TODO: de completat */}
+                {privateData.map((item) => (
+                        <ListItem key={item.name} disablePadding>
+                            <ListItemButton
+                                onClick={() => navigate(item.navigation)}
+                            >
+                                <ListItemIcon>{item.icon}</ListItemIcon>
+                                <ListItemText primary={item.name} />
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
             </List>
         </Box>
     );

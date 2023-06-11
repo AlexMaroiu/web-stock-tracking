@@ -9,12 +9,10 @@ namespace Licenta.Controllers
     public class StockController : ControllerBase
     {
         readonly IStockService _stockService;
-        readonly IAnalysisService _analysisService;
 
-        public StockController(IStockService stockService, IAnalysisService analysisService)
+        public StockController(IStockService stockService)
         {
             _stockService = stockService ?? throw new ArgumentNullException(nameof(stockService));
-            _analysisService = analysisService ?? throw new ArgumentNullException(nameof(analysisService));
         }
 
         [HttpGet("{symbol}")]
@@ -23,9 +21,9 @@ namespace Licenta.Controllers
             var result = await _stockService.Get(symbol);
             if(result is null)
             {
-                return NotFound();
+                return NotFound("Not found");
             }
-            return Ok(result);
+            return Ok(result.Stock);
         }
 
         [HttpGet("/StockDB/{symbol}")]
@@ -39,7 +37,7 @@ namespace Licenta.Controllers
             return Ok(result);
         }
 
-        [HttpPost("/StockListDB")]
+        [HttpPost("/StockList")]
         public async Task<IActionResult> GetListDB([FromBody] List<string> symbols)
         {
             var result = await _stockService.GetStockList(symbols);

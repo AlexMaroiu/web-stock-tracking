@@ -33,9 +33,9 @@ namespace Licenta.Controllers
             var response = await _allocationService.Create(model);
             if (response)
             {
-                return Ok("Created");
+                return Created("~/", model);
             }
-            return UnprocessableEntity("Error");
+            return BadRequest("Error");
         }
 
         [HttpPut, Authorize]
