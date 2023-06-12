@@ -171,7 +171,7 @@ function FinancialData() {
                 )}
 
                 <div className={styles.check_box}>
-                    <Checkbox onChange={handleCheck} checked={checked}/>
+                    <Checkbox onChange={handleCheck} checked={checked} id='stock-check'/>
                     <div>add to compare</div>
                 </div>
             </div>

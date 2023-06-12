@@ -92,7 +92,7 @@ function Compare() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Button onClick={handleEmpty}>Empty list</Button>
+                <Button onClick={handleEmpty} data-cy='empty-list-btn'>Empty list</Button>
             </div>
         </>
     );

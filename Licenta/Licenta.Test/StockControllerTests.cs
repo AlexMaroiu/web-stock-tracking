@@ -11,7 +11,7 @@ namespace Licenta.Test
         [Fact]
         public async void GetStock_Return_Ok()
         {
-            // Arange
+            // Arrange
             var service = A.Fake<IStockService>();
             var stock = new StockModel()
             {
@@ -40,7 +40,7 @@ namespace Licenta.Test
         [Fact]
         public async void GetStock_Return_NotFound()
         {
-            // Arange
+            // Arrange
             var service = A.Fake<IStockService>();
             StockModel? stock = null;
             A.CallTo(() => service.Get("META")).Returns(Task.FromResult(stock)!);

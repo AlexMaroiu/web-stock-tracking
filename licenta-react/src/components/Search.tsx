@@ -93,10 +93,11 @@ function SearchPage() {
                     disablePortal
                     freeSolo
                     id="search-stock"
+                    data-cy="search-stock"
                     options={searchData}
                     onKeyDown={onEnterKey}
                     getOptionLabel={(option) =>
-                        (option as SearchType).symbol
+                        (option as SearchType).symbol || selectedOption.current.value
                     }
                     renderInput={(params) => (
                         <TextField

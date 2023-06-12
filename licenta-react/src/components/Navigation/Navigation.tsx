@@ -52,7 +52,7 @@ function Navigation(props: Props) {
             <HideOnScroll {...props}>
                 <AppBar>
                     <Toolbar>
-                        <IconButton onClick={toggleDrawer(true)}>
+                        <IconButton onClick={toggleDrawer(true)} data-cy='menu-icon'>
                             <MenuIcon />
                         </IconButton>
                         <Typography>

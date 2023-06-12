@@ -30,6 +30,7 @@ function SideMenu(props: {
                     <ListItem key={item.name} disablePadding>
                         <ListItemButton
                             onClick={() => navigate(item.navigation)}
+                            data-cy={item.name}
                         >
                             <ListItemIcon>{item.icon}</ListItemIcon>
                             <ListItemText primary={item.name} />
@@ -43,6 +44,7 @@ function SideMenu(props: {
                         <ListItem key={item.name} disablePadding>
                             <ListItemButton
                                 onClick={() => navigate(item.navigation)}
+                                data-cy={item.name}
                             >
                                 <ListItemIcon>{item.icon}</ListItemIcon>
                                 <ListItemText primary={item.name} />

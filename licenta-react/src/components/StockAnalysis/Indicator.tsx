@@ -80,7 +80,7 @@ function Indicator(props: IndicatorProps) {
                 </ClickAwayListener>
             )}
             <Paper sx={{background: getColor(), marginLeft:"0.5rem"}} elevation={0}>
-                <p style={{ marginLeft: "0.5rem", marginRight:"0.5rem"}}>{props.data}</p>
+                <p className={styles.value}>{props.data}</p>
             </Paper>
         </div>
     );

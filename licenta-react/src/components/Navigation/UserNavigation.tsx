@@ -31,6 +31,7 @@ function UserNavigation() {
                     color="inherit"
                     className={styles.button}
                     onClick={() => navigate("/login")}
+                    id="loginBtn"
                 >
                     Log-in
                 </Button>
