@@ -127,19 +127,6 @@ function FinancialData() {
         setChecked(find);
     }, [find]);
 
-    const action = (
-        <>
-            <IconButton
-                size="small"
-                aria-label="close"
-                color="inherit"
-                onClick={() => setMessage(null)}
-            >
-                <CloseIcon fontSize="small" />
-            </IconButton>
-        </>
-    );
-
     const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
         if(!checked){
             if(stock?.price.symbol){

@@ -9,6 +9,7 @@ function SnackBarMessage (props: {message: string, setMessage: (msg: string) => 
                 aria-label="close"
                 color="inherit"
                 onClick={() => props.setMessage(null)}
+                data-testid="icon-button-skb"
             >
                 <CloseIcon fontSize="small" />
             </IconButton>
@@ -23,6 +24,7 @@ function SnackBarMessage (props: {message: string, setMessage: (msg: string) => 
                     onClose={() => props.setMessage(null)}
                     message={props.message}
                     action={action}
+                    data-testid="skb-test"
                 />
         </>
     );

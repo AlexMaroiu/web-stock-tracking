@@ -1,0 +1,532 @@
+{
+	"info": {
+		"_postman_id": "a4c03c03-5b88-493b-89c8-750974d11f93",
+		"name": "Licenta",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19939566"
+	},
+	"item": [
+		{
+			"name": "Stock",
+			"item": [
+				{
+					"name": "Get stockDB",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7252/StockDB/META",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7252",
+							"path": [
+								"StockDB",
+								"META"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get stock API",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7252/Stock/AAPL",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7252",
+							"path": [
+								"Stock",
+								"AAPL"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get stock list",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"META\",\r\n    \"AAPL\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7252/StockListDB",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7252",
+							"path": [
+								"StockListDB"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get stock from yahoo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "apidojo-yahoo-finance-v1.p.rapidapi.com",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-analysis?symbol=AAPL",
+							"protocol": "https",
+							"host": [
+								"apidojo-yahoo-finance-v1",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"stock",
+								"v2",
+								"get-analysis"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "AAPL"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get chart from yahoo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "apidojo-yahoo-finance-v1.p.rapidapi.com",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-chart?interval=5m&symbol=AMRN&range=1d&region=US",
+							"protocol": "https",
+							"host": [
+								"apidojo-yahoo-finance-v1",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"stock",
+								"v2",
+								"get-chart"
+							],
+							"query": [
+								{
+									"key": "interval",
+									"value": "5m"
+								},
+								{
+									"key": "symbol",
+									"value": "AMRN"
+								},
+								{
+									"key": "range",
+									"value": "1d"
+								},
+								{
+									"key": "region",
+									"value": "US"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get stock from yahoo, new api",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "yahoo-finance15.p.rapidapi.com",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/AAPL/financial-data",
+							"protocol": "https",
+							"host": [
+								"yahoo-finance15",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"api",
+								"yahoo",
+								"qu",
+								"quote",
+								"AAPL",
+								"financial-data"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var r = responseBody;\r",
+							"postman.setGlobalVariable(\"jwt\", r);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userName\": \"Alex\",\r\n  \"userEmail\": \"maroiualeX@gmail.com\",\r\n  \"password\": \"parola123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/Auth/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"Auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var r = responseBody;\r",
+							"postman.setGlobalVariable(\"jwt\", r);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userName\": \"asd\",\r\n  \"userEmail\": \"asd@mail.com\",\r\n  \"password\": \"asdasdasd\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/Auth/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"Auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get preference",
+			"request": {
+				"auth": {
+					"type": "jwt",
+					"jwt": [
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "HS256",
+							"type": "string"
+						},
+						{
+							"key": "isSecretBase64Encoded",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "payload",
+							"value": "{}",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "queryParamKey",
+							"value": "token",
+							"type": "string"
+						},
+						{
+							"key": "header",
+							"value": "{}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:7252/Preferences",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"Preferences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Preference",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"userId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"peRatio\": {\r\n        \"min\": 1,\r\n        \"max\": 2\r\n    },\r\n    \"roe\": {\r\n        \"min\": 3,\r\n        \"max\": 4\r\n    },\r\n    \"roa\": {\r\n        \"min\": 5,\r\n        \"max\": 6\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/Preferences",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"Preferences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Analyze",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:7252/Preferences/AAPL",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"Preferences",
+						"AAPL"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Allocation",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:7252/Allocation",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"Allocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Allocation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"amount\": [\r\n    10, 12, 1\r\n  ],\r\n  \"labels\": [\r\n    \"Apple\", \"Meta\", \"Uber\"\r\n  ],\r\n  \"value\": [\r\n      2, 3, 4\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/Allocation",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"Allocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Allocation",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"amount\": [\r\n    10, 12, 1\r\n  ],\r\n  \"symbols\": [\r\n    \"UBER\", \"META\", \"AAPL\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/Allocation",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"Allocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Chart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7252/StockChart/META",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"StockChart",
+						"META"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
